@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
-import xss from 'xss-clean'
 import hpp from 'hpp'
 import morgan from 'morgan'
 import sanitize from 'mongo-sanitize'
@@ -52,10 +51,20 @@ const allowedOrigins = [
   'http://127.0.0.1:5173',
 ].filter(Boolean)
 
+const isLocalhost = (origin) => {
+  if (!origin) return true
+  return (
+    origin.startsWith('http://localhost:') ||
+    origin.startsWith('http://127.0.0.1:') ||
+    origin === 'http://localhost' ||
+    origin === 'http://127.0.0.1'
+  )
+}
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      if (!origin || isLocalhost(origin) || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
         callback(new Error('Cross-Origin Request blocked by CORS Hardening!'))
@@ -70,26 +79,41 @@ app.use(express.json({ limit: '10kb' })) // Block excessive payload sizes
 app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 app.use(cookieParser())
 
-// 5. NoSQL Injection Prevention Middleware
+// Helper to recursively purge XSS tags (Express 5 & ES compatible)
+const purgeXSS = (val) => {
+  if (typeof val === 'string') {
+    return val.replace(/<[^>]*>?/gm, '') // Strip HTML tag blocks
+  }
+  if (Array.isArray(val)) {
+    return val.map(item => purgeXSS(item))
+  }
+  if (typeof val === 'object' && val !== null) {
+    Object.keys(val).forEach((key) => {
+      val[key] = purgeXSS(val[key])
+    })
+  }
+  return val
+}
+
+// 5. Input Sanitization (NoSQL Injection & XSS Shield)
 app.use((req, res, next) => {
   if (req.body) {
-    req.body = sanitize(req.body)
+    req.body = purgeXSS(sanitize(req.body))
   }
   if (req.query) {
     Object.keys(req.query).forEach((key) => {
-      req.query[key] = sanitize(req.query[key])
+      req.query[key] = purgeXSS(sanitize(req.query[key]))
     })
   }
   if (req.params) {
     Object.keys(req.params).forEach((key) => {
-      req.params[key] = sanitize(req.params[key])
+      req.params[key] = purgeXSS(sanitize(req.params[key]))
     })
   }
   next()
 })
 
-// 6. XSS Script Purging & Parameter Pollution Protection
-app.use(xss())
+// 6. Parameter Pollution Protection
 app.use(hpp())
 
 // 7. Request Rate Limiting
