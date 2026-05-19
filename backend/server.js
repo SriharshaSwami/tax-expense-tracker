@@ -72,9 +72,19 @@ app.use(cookieParser())
 
 // 5. NoSQL Injection Prevention Middleware
 app.use((req, res, next) => {
-  if (req.body) req.body = sanitize(req.body)
-  if (req.query) req.query = sanitize(req.query)
-  if (req.params) req.params = sanitize(req.params)
+  if (req.body) {
+    req.body = sanitize(req.body)
+  }
+  if (req.query) {
+    Object.keys(req.query).forEach((key) => {
+      req.query[key] = sanitize(req.query[key])
+    })
+  }
+  if (req.params) {
+    Object.keys(req.params).forEach((key) => {
+      req.params[key] = sanitize(req.params[key])
+    })
+  }
   next()
 })
 
