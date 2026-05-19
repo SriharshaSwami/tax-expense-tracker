@@ -5,8 +5,10 @@ const errorHandler = (err, req, res, next) => {
   error.statusCode = err.statusCode || 500
   error.message = err.message
 
-  // Log to console unconditionally for debugging
-  console.error('Error Handler Triggered:', err)
+  // Log to console in development
+  if (process.env.NODE_ENV !== 'production') {
+    console.error('Error Handler Triggered:', err)
+  }
 
   // 1. Mongoose Bad ObjectId (CastError)
   if (err.name === 'CastError') {
