@@ -1,7 +1,8 @@
 import ErrorResponse from '../utils/errorResponse.js'
 
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err }
+  let error = err
+  error.statusCode = err.statusCode || 500
   error.message = err.message
 
   // Log to console in development
