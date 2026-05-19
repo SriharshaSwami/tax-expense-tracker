@@ -1,0 +1,108 @@
+@import 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
+  
+  --color-fin-bg: var(--fin-bg);
+  --color-fin-card: var(--fin-card);
+  --color-fin-card-hover: var(--fin-card-hover);
+  --color-fin-border: var(--fin-border);
+  --color-fin-border-hover: var(--fin-border-hover);
+  --color-fin-text-primary: var(--fin-text-primary);
+  --color-fin-text-secondary: var(--fin-text-secondary);
+  --color-fin-text-muted: var(--fin-text-muted);
+  --color-fin-glow: var(--fin-glow);
+  
+  --shadow-fin-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
+  --shadow-fin-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 16px -6px rgba(0, 0, 0, 0.05);
+  --shadow-fin-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 12px 20px -8px rgba(0, 0, 0, 0.06);
+  --shadow-fin-glow: 0 0 20px var(--fin-glow);
+}
+
+:root {
+  --fin-bg: #f8fafc;
+  --fin-card: rgba(255, 255, 255, 0.75);
+  --fin-card-hover: rgba(255, 255, 255, 0.95);
+  --fin-border: rgba(226, 232, 240, 0.8);
+  --fin-border-hover: rgba(203, 213, 225, 0.9);
+  --fin-text-primary: #0f172a;
+  --fin-text-secondary: #475569;
+  --fin-text-muted: #94a3b8;
+  --fin-glow: rgba(16, 185, 129, 0.08);
+  
+  color-scheme: light;
+}
+
+.dark {
+  --fin-bg: #070913;
+  --fin-card: rgba(15, 22, 42, 0.7);
+  --fin-card-hover: rgba(23, 32, 59, 0.85);
+  --fin-border: rgba(30, 41, 59, 0.65);
+  --fin-border-hover: rgba(51, 65, 85, 0.85);
+  --fin-text-primary: #f8fafc;
+  --fin-text-secondary: #cbd5e1;
+  --fin-text-muted: #64748b;
+  --fin-glow: rgba(16, 185, 129, 0.16);
+  
+  color-scheme: dark;
+}
+
+* {
+  transition-property: background-color, border-color, text-decoration-color, fill, stroke, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--fin-bg);
+  color: var(--fin-text-primary);
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism custom styling utilities */
+.glass-panel {
+  background: var(--fin-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--fin-border);
+}
+
+.glass-panel:hover {
+  background: var(--fin-card-hover);
+  border-color: var(--fin-border-hover);
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--fin-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fin-border-hover);
+}
