@@ -6,7 +6,7 @@ import PublicRoute from './components/PublicRoute'
 import { AuthProvider } from './context/AuthContext'
 import { TransactionProvider } from './context/TransactionContext'
 import { ThemeProvider } from './context/ThemeContext'
-import Loader from './components/ui/Loader'
+import { FullPageLoader } from './components/ui/Loader'
 
 // Lazy Loaded Route Entry Pages
 const Home = lazy(() => import('./pages/Home'))
@@ -28,9 +28,10 @@ function App() {
             <Toaster
               position="top-right"
               toastOptions={{
+                className: 'toast-premium',
                 duration: 4000,
                 style: {
-                  background: 'var(--fin-card)',
+                  background: 'var(--fin-bg-panel)',
                   color: 'var(--fin-text-primary)',
                   border: '1px solid var(--fin-border)',
                   borderRadius: '16px',
@@ -41,15 +42,7 @@ function App() {
                 }
               }}
             />
-            <Suspense
-              fallback={
-                <div className="min-h-screen bg-fin-bg flex items-center justify-center p-8">
-                  <div className="w-full max-w-7xl">
-                    <Loader variant="grid" count={3} />
-                  </div>
-                </div>
-              }
-            >
+            <Suspense fallback={<FullPageLoader label="Loading wealth auditing dashboard..." />}>
               <Routes>
                 {/* Public landing or dashboard redirect if already logged in */}
                 <Route path="/" element={<Home />} />
