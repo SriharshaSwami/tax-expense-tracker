@@ -122,6 +122,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
     return ApiResponse.success(res, null, 'Password reset email sent')
   } catch (err) {
+    console.error('Nodemailer Error:', err)
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
     await user.save({ validateBeforeSave: false })
