@@ -31,7 +31,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new AppError('Password must be at least 6 characters', 400)
   }
 
-  const existingUser = await User.findOne({ email: email.toLowerCase() })
+  const existingUser = await User.findOne({ email: email.toLowerCase().trim() })
   if (existingUser) {
     throw new AppError('Email already registered', 409)
   }
@@ -58,7 +58,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     throw new AppError('Please provide email and password', 400)
   }
 
-  const user = await User.findOne({ email: email.toLowerCase() }).select(
+  const user = await User.findOne({ email: email.toLowerCase().trim() }).select(
     '+password'
   )
 
@@ -100,7 +100,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body
   if (!email) throw new AppError('Please provide an email', 400)
 
-  const user = await User.findOne({ email: email.toLowerCase() })
+  const user = await User.findOne({ email: email.toLowerCase().trim() })
   if (!user) throw new AppError('No user found with that email', 404)
 
   const resetToken = user.createPasswordResetToken()
