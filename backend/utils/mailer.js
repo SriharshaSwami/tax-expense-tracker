@@ -7,7 +7,17 @@ const createTransporter = () => {
   const pass = process.env.SMTP_PASS
 
   if (!host || !user || !pass) {
-    throw new Error('SMTP configuration is not set in environment variables')
+    console.warn('⚠️ SMTP configuration is not set. Emails will be logged to console instead of sending.')
+    return {
+      sendMail: async (options) => {
+        console.log('--- MOCK EMAIL ---')
+        console.log(`To: ${options.to}`)
+        console.log(`Subject: ${options.subject}`)
+        console.log(`Text: ${options.text}`)
+        console.log('------------------')
+        return { messageId: 'mock-id' }
+      }
+    }
   }
 
   return nodemailer.createTransport({

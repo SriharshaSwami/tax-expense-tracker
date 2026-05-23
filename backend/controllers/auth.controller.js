@@ -79,7 +79,21 @@ export const logoutUser = asyncHandler(async (req, res) => {
 })
 
 export const getCurrentUser = asyncHandler(async (req, res) => {
-  return ApiResponse.success(res, { user: formatUser(req.user) })
+  const token = req.cookies.token
+  if (!token) {
+    return ApiResponse.success(res, { user: null })
+  }
+
+  try {
+    const decoded = verifyToken(token)
+    const user = await User.findById(decoded.userId)
+    if (!user) {
+      return ApiResponse.success(res, { user: null })
+    }
+    return ApiResponse.success(res, { user: formatUser(user) })
+  } catch {
+    return ApiResponse.success(res, { user: null })
+  }
 })
 
 export const forgotPassword = asyncHandler(async (req, res) => {
