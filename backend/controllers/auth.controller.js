@@ -9,6 +9,7 @@ import {
 import ApiResponse from '../utils/ApiResponse.js'
 import crypto from 'crypto'
 import { sendMail } from '../utils/mailer.js'
+import { getPasswordResetEmailTemplate } from '../utils/emailTemplates.js'
 
 const formatUser = (user) => ({
   _id: user._id,
@@ -109,13 +110,14 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&id=${user._id}`
 
   const message = `You requested a password reset. Click the link to reset your password: ${resetUrl}`
+  const htmlContent = getPasswordResetEmailTemplate(resetUrl, user.name || 'there')
 
   try {
     await sendMail({
       to: user.email,
-      subject: 'Password reset request',
+      subject: 'TaxExpense Planner - Password Reset Request',
       text: message,
-      html: `<p>${message}</p><p>If you did not request this, please ignore.</p>`,
+      html: htmlContent,
     })
 
     return ApiResponse.success(res, null, 'Password reset email sent')
