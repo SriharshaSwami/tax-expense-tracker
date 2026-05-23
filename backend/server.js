@@ -31,6 +31,7 @@ import { validateEnv } from './config/env.js'
 validateEnv()
 
 const app = express()
+app.set('trust proxy', 1) // Trust Render's reverse proxy for rate limiter
 const PORT = process.env.PORT || 5000
 
 // Initialize MongoDB Atlas connection
