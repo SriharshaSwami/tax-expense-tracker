@@ -25,19 +25,19 @@ const Select = React.forwardRef(({
           id={id}
           ref={ref}
           className={`
-            w-full appearance-none rounded-xl border bg-slate-50/50 px-4 py-2.5 text-sm text-fin-text-primary outline-hidden
-            transition duration-150 focus:bg-white dark:focus:bg-slate-900/50 focus:ring-2 focus:ring-emerald-500/20
-            dark:bg-slate-900/30 cursor-pointer pr-10
+            w-full appearance-none rounded-xl border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-hidden
+            transition duration-150 focus:bg-fin-card focus:ring-2 focus:ring-fin-primary/20
+            cursor-pointer pr-10
             ${error 
-              ? 'border-rose-450 focus:border-rose-500' 
-              : 'border-fin-border focus:border-emerald-500 dark:border-slate-800'
+              ? 'border-fin-danger focus:border-fin-danger focus:ring-fin-danger/20' 
+              : 'border-fin-border focus:border-fin-primary'
             }
             ${className}
           `}
           {...props}
         >
           {children || options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-white dark:bg-slate-900 text-fin-text-primary">
+            <option key={opt.value} value={opt.value} className="bg-fin-card text-fin-text-primary">
               {opt.label}
             </option>
           ))}

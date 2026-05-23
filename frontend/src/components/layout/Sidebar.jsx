@@ -116,14 +116,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="fixed top-0 left-0 z-40 h-screen w-64 border-r border-fin-border bg-white dark:bg-slate-950 p-6 flex flex-col justify-between md:hidden shadow-fin-lg"
+            className="sidebar-surface fixed top-0 left-0 z-40 h-screen w-64 border-r border-fin-border/20 bg-fin-sidebar-bg text-fin-sidebar-text p-6 flex flex-col justify-between md:hidden shadow-fin-lg"
           >
             <div>
-              <div className="flex items-center gap-2.5 border-b border-fin-border pb-5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold text-base shadow-fin-sm">
+              <div className="flex items-center gap-2.5 border-b border-fin-border/15 pb-5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-fin-primary text-white font-bold text-base shadow-fin-sm">
                   T
                 </div>
-                <span className="text-sm font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <span className="text-sm font-black uppercase tracking-wider text-white">
                   TaxExpense Planner
                 </span>
               </div>
@@ -136,14 +136,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                     onClick={() => setMobileOpen && setMobileOpen(false)}
                     className={`relative flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-semibold transition ${
                       isActive(item.path)
-                        ? 'text-emerald-700 dark:text-emerald-400'
-                        : 'text-fin-text-secondary hover:bg-slate-100/50 dark:hover:bg-slate-800/40'
+                        ? 'text-white'
+                        : 'text-fin-sidebar-subtle hover:text-white hover:bg-white/8'
                     }`}
                   >
                     {isActive(item.path) && (
                       <motion.div
                         layoutId="mobileActiveIndicator"
-                        className="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-500/25 rounded-xl"
+                        className="absolute inset-0 bg-fin-primary rounded-xl"
                       />
                     )}
                     <span className="relative z-10 shrink-0">{item.icon}</span>
@@ -154,21 +154,21 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             </div>
 
             {/* Logout button in Mobile View */}
-            <div className="border-t border-fin-border pt-5 space-y-4">
+            <div className="border-t border-fin-border/15 pt-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 font-bold text-fin-text-primary border border-fin-border">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white font-bold border border-fin-border/20">
                   {getInitials(user?.name)}
                 </div>
                 <div className="overflow-hidden">
-                  <p className="truncate text-xs font-bold text-fin-text-primary">{user?.name}</p>
-                  <p className="truncate text-[10px] text-fin-text-muted">{user?.email}</p>
+                  <p className="truncate text-xs font-bold text-white">{user?.name}</p>
+                  <p className="truncate text-[10px] text-fin-sidebar-subtle">{user?.email}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={handleLogout}
                 disabled={loggingOut}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-fin-border py-2.5 text-xs font-semibold text-fin-text-secondary hover:bg-slate-100/50 dark:hover:bg-slate-800/40 transition disabled:opacity-60 cursor-pointer shadow-fin-sm"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-fin-border/20 py-2.5 text-xs font-semibold text-fin-sidebar-subtle hover:text-white hover:bg-white/8 transition disabled:opacity-60 cursor-pointer shadow-fin-sm"
               >
                 Sign Out
               </button>
@@ -180,21 +180,21 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       {/* DESKTOP COLLAPSIBLE SIDEBAR */}
       <aside
         className={`
-          hidden md:flex h-screen sticky top-0 left-0 z-40 border-r border-fin-border bg-white dark:bg-slate-950/70 backdrop-blur-md
+          hidden md:flex h-screen sticky top-0 left-0 z-40 border-r border-fin-border/10 sidebar-surface bg-fin-sidebar-bg text-fin-sidebar-text
           flex-col justify-between p-5 transition-all duration-300 ease-in-out shrink-0 ${sidebarWidth}
         `}
       >
         <div>
           {/* Logo Brand Header */}
-          <div className="flex items-center gap-3 border-b border-fin-border pb-5 overflow-hidden">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-extrabold text-lg shadow-fin-sm">
+          <div className="flex items-center gap-3 border-b border-fin-border/15 pb-5 overflow-hidden">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-fin-primary text-white font-extrabold text-lg shadow-fin-sm">
               T
             </div>
             {!isCollapsed && (
               <motion.span
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 whitespace-nowrap"
+                className="text-xs font-black uppercase tracking-widest text-white whitespace-nowrap"
               >
                 TaxExpense Planner
               </motion.span>
@@ -211,15 +211,15 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                   isCollapsed ? 'justify-center px-0' : 'px-4 gap-3.5'
                 } ${
                   isActive(item.path)
-                    ? 'text-emerald-700 dark:text-emerald-400'
-                    : 'text-fin-text-secondary hover:bg-slate-100/50 dark:hover:bg-slate-800/30'
+                    ? 'text-white'
+                    : 'text-fin-sidebar-subtle hover:text-white hover:bg-white/8'
                 }`}
               >
                 {isActive(item.path) && (
                   <motion.div
                     layoutId="desktopActiveIndicator"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    className="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-500/20 border-l-3 border-emerald-500 dark:border-emerald-400 rounded-xl"
+                    className="absolute inset-0 bg-fin-primary rounded-xl"
                   />
                 )}
                 
@@ -235,7 +235,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                   </motion.span>
                 ) : (
                   /* Animated tooltip when collapsed */
-                  <div className="absolute left-16 z-50 rounded-lg bg-slate-900 text-white px-2 py-1 text-[11px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none transition duration-200 shadow-fin-md whitespace-nowrap scale-95 group-hover:scale-100 origin-left border border-slate-800">
+                  <div className="absolute left-16 z-50 rounded-lg bg-fin-card text-fin-text-primary px-2 py-1 text-[11px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none transition duration-200 shadow-fin-md whitespace-nowrap scale-95 group-hover:scale-100 origin-left border border-fin-border">
                     {item.label}
                   </div>
                 )}
@@ -245,16 +245,16 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         </div>
 
         {/* User profile & Collapse Button */}
-        <div className="border-t border-fin-border pt-5 space-y-4">
+        <div className="border-t border-fin-border/15 pt-5 space-y-4">
           {/* User info details */}
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} overflow-hidden`}>
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-850 font-bold text-fin-text-primary border border-fin-border shadow-fin-sm">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white font-bold border border-fin-border/15 shadow-fin-sm">
               {getInitials(user?.name)}
             </div>
             {!isCollapsed && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden">
-                <p className="truncate text-xs font-bold text-fin-text-primary">{user?.name}</p>
-                <p className="truncate text-[10px] text-fin-text-muted">{user?.email}</p>
+                <p className="truncate text-xs font-bold text-white">{user?.name}</p>
+                <p className="truncate text-[10px] text-fin-sidebar-subtle">{user?.email}</p>
               </motion.div>
             )}
           </div>
@@ -266,7 +266,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                 type="button"
                 onClick={handleLogout}
                 disabled={loggingOut}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-fin-border py-2 text-xs font-semibold text-fin-text-secondary hover:bg-slate-100/50 dark:hover:bg-slate-800/40 transition disabled:opacity-60 cursor-pointer shadow-fin-sm"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-fin-border/20 py-2 text-xs font-semibold text-fin-sidebar-subtle hover:text-white hover:bg-white/8 transition disabled:opacity-60 cursor-pointer shadow-fin-sm"
               >
                 {loggingOut ? 'Signing out...' : 'Sign Out'}
               </button>
@@ -275,12 +275,12 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                 type="button"
                 onClick={handleLogout}
                 disabled={loggingOut}
-                className="group relative flex justify-center items-center rounded-xl border border-fin-border py-2.5 text-fin-text-secondary hover:bg-slate-100/50 dark:hover:bg-slate-800/40 transition cursor-pointer"
+                className="group relative flex justify-center items-center rounded-xl border border-fin-border/20 py-2.5 text-fin-sidebar-subtle hover:text-white hover:bg-white/8 transition cursor-pointer"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                 </svg>
-                <div className="absolute left-16 z-50 rounded-lg bg-slate-900 text-white px-2 py-1 text-[11px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none transition duration-200 shadow-fin-md whitespace-nowrap scale-95 group-hover:scale-100 origin-left border border-slate-800">
+                <div className="absolute left-16 z-50 rounded-lg bg-fin-card text-fin-text-primary px-2 py-1 text-[11px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none transition duration-200 shadow-fin-md whitespace-nowrap scale-95 group-hover:scale-100 origin-left border border-fin-border">
                   Sign Out
                 </div>
               </button>
@@ -290,7 +290,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             <button
               type="button"
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="flex items-center justify-center rounded-xl border border-fin-border py-2 text-fin-text-secondary hover:bg-slate-150 dark:hover:bg-slate-800/40 transition cursor-pointer shadow-fin-sm"
+              className="flex items-center justify-center rounded-xl border border-fin-border/20 py-2 text-fin-sidebar-subtle hover:text-white hover:bg-white/8 transition cursor-pointer shadow-fin-sm"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -62,6 +62,9 @@ const budgetSchema = new mongoose.Schema(
 // Compound index to guarantee one budget per user/category/month/year combo
 budgetSchema.index({ user: 1, category: 1, month: 1, year: 1 }, { unique: true })
 
+budgetSchema.index({ user: 1 })
+budgetSchema.index({ user: 1, name: 1 }, { unique: true })
+
 const Budget = mongoose.model('Budget', budgetSchema)
 
 export default Budget

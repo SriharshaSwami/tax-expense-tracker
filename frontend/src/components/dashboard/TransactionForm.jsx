@@ -234,12 +234,12 @@ const TransactionForm = () => {
             value={formData.note}
             onChange={handleChange}
             placeholder="Add specific details or annotations..."
-            className="w-full rounded-xl border border-fin-border dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 px-4 py-2.5 text-sm text-fin-text-primary outline-hidden focus:bg-white dark:focus:bg-slate-900/50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition resize-none"
+            className="w-full rounded-xl border border-fin-border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-hidden transition duration-150 focus:bg-fin-card focus:ring-2 focus:ring-fin-primary/20 focus:border-fin-primary resize-none"
           />
         </div>
 
         {/* File OCR Scan Zone */}
-        <div className="border border-dashed border-fin-border rounded-xl p-2 bg-slate-50/20">
+        <div className="border border-dashed border-fin-border rounded-xl p-2 bg-fin-input-bg/40">
           <FileUpload
             file={receiptFile}
             setFile={setReceiptFile}

@@ -265,9 +265,9 @@ const TaxCalculator = () => {
   }
 
   return (
-    <div className="min-h-screen bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
       {/* ambient glows */}
-      <div className="absolute top-[-250px] right-[-150px] h-[600px] w-[600px] rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[130px] pointer-events-none z-0" />
+      <div className="absolute top-[-250px] right-[-150px] h-[600px] w-[600px] rounded-full bg-emerald-500/5 dark:bg-fin-success/10 blur-[130px] pointer-events-none z-0" />
       <div className="absolute bottom-[-150px] left-[-150px] h-[500px] w-[500px] rounded-full bg-indigo-500/3 dark:bg-indigo-500/5 blur-[120px] pointer-events-none z-0" />
 
       {/* SIDEBAR NAVIGATION */}
@@ -276,7 +276,7 @@ const TaxCalculator = () => {
       {/* MOBILE MENU INTERACTIVE OVERLAY */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-35 bg-slate-950/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-35 bg-fin-overlay backdrop-blur-xs md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -295,7 +295,7 @@ const TaxCalculator = () => {
           variants={pageVariants}
           initial="initial"
           animate="animate"
-          className="flex-1 overflow-y-auto p-6 md:p-8 max-w-7xl mx-auto w-full space-y-8 no-scrollbar"
+          className="flex-1 overflow-y-auto p-4 md:p-6 max-w-7xl mx-auto w-full space-y-6 no-scrollbar"
         >
           <SectionHeader
             title="Tax Slabs Comparison"
@@ -427,13 +427,13 @@ const TaxCalculator = () => {
                   {/* 1. RECOMMENDATION HERO CARD */}
                   <Card hoverable={false} className="border border-emerald-500/15 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-fin-success bg-fin-success/10 px-2.5 py-0.5 rounded-full">
                         Optimal Advice
                       </span>
                       <h2 className="text-base font-black text-fin-text-primary tracking-tight pt-1.5">
                         {results.savings.amountSaved > 0 ? (
                           <>
-                            Choose the <span className="text-emerald-600 dark:text-emerald-400 uppercase font-black">{results.savings.recommendedRegime === 'new' ? 'New Regime' : 'Old Regime'}</span>
+                            Choose the <span className="text-fin-success uppercase font-black">{results.savings.recommendedRegime === 'new' ? 'New Regime' : 'Old Regime'}</span>
                           </>
                         ) : (
                           <>Both regimes cost you the exact same tax</>
@@ -496,7 +496,7 @@ const TaxCalculator = () => {
                     <Card hoverable={false} className="space-y-4">
                       <div className="flex items-center justify-between border-b border-fin-border pb-2">
                         <span className="text-xs font-bold text-emerald-500 uppercase tracking-wide">NEW TAX REGIME</span>
-                        <span className="text-[9px] font-bold bg-emerald-500/10 text-emerald-650 dark:text-emerald-400 px-2 py-0.5 rounded-full">Standard</span>
+                        <span className="text-[9px] font-bold bg-fin-success/10 text-fin-success px-2 py-0.5 rounded-full">Standard</span>
                       </div>
                       <div className="space-y-2 text-xs">
                         <div className="flex justify-between">
@@ -513,7 +513,7 @@ const TaxCalculator = () => {
                         </div>
                         <div className="flex justify-between border-t border-fin-border pt-2 text-sm font-black">
                           <span className="text-fin-text-primary">Final Tax Payable:</span>
-                          <span className="text-emerald-600 dark:text-emerald-400">{formatRupee(results.newRegime.taxPayable)}</span>
+                          <span className="text-fin-success">{formatRupee(results.newRegime.taxPayable)}</span>
                         </div>
                         <div className="flex justify-between text-[10px] text-fin-text-muted">
                           <span>Effective Rate:</span>
@@ -592,7 +592,7 @@ const TaxCalculator = () => {
                           <span
                             className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
                               card.type === 'recommend'
-                                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                                ? 'bg-fin-success/10 text-fin-success'
                                 : card.type === 'success'
                                 ? 'bg-teal-500/10 text-teal-600 dark:text-teal-400'
                                 : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-450'
@@ -643,7 +643,7 @@ const TaxCalculator = () => {
                     <div>
                       <div className="flex justify-between items-center text-[10px] text-fin-text-muted mb-2 border-b border-fin-border pb-2">
                         <span>{new Date(record.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                        <span className="font-extrabold uppercase text-emerald-650 bg-emerald-500/10 px-2 py-0.5 rounded-sm">Recommended: {record.result.savings.recommendedRegime}</span>
+                        <span className="font-extrabold uppercase text-emerald-650 bg-fin-success/10 px-2 py-0.5 rounded-sm">Recommended: {record.result.savings.recommendedRegime}</span>
                       </div>
                       <div className="space-y-1.5 text-xs">
                         <div className="flex justify-between">
@@ -658,7 +658,7 @@ const TaxCalculator = () => {
                           <span className="text-fin-text-muted">New Tax Payable:</span>
                           <span className="font-semibold text-fin-text-secondary">{formatRupee(record.result.newRegime.taxPayable)}</span>
                         </div>
-                        <div className="flex justify-between border-t border-fin-border pt-2 text-emerald-600 dark:text-emerald-400 font-extrabold">
+                        <div className="flex justify-between border-t border-fin-border pt-2 text-fin-success font-extrabold">
                           <span>Exact Savings:</span>
                           <span>{formatRupee(record.result.savings.amountSaved)}</span>
                         </div>

@@ -1,5 +1,6 @@
 import express from 'express'
 import { protectRoute } from '../middleware/auth.middleware.js'
+import { notificationLimiter } from '../middleware/rateLimiter.js'
 import {
   getNotifications,
   markAsRead,
@@ -11,8 +12,9 @@ const router = express.Router()
 
 router.use(protectRoute)
 
+// Apply higher rate limit for notification polling
 router.route('/')
-  .get(getNotifications)
+  .get(notificationLimiter, getNotifications)
 
 router.route('/read-all')
   .put(markAllAsRead)

@@ -176,10 +176,10 @@ const Budgets = () => {
   }
 
   return (
-    <div className="min-h-screen bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
       {/* ambient glows */}
-      <div className="absolute top-[-250px] right-[-150px] h-[600px] w-[600px] rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[130px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-150px] left-[-150px] h-[500px] w-[500px] rounded-full bg-indigo-500/3 dark:bg-indigo-500/5 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute -top-62.5 -right-37.5 h-150 w-150 rounded-full bg-fin-success/6 dark:bg-fin-success/10 blur-[130px] pointer-events-none z-0" />
+      <div className="absolute -bottom-37.5 -left-37.5 h-125 w-125 rounded-full bg-fin-info/4 dark:bg-fin-info/8 blur-[120px] pointer-events-none z-0" />
 
       {/* SIDEBAR NAVIGATION */}
       <Sidebar mobileOpen={mobileMenuOpen} setMobileOpen={setMobileMenuOpen} />
@@ -187,7 +187,7 @@ const Budgets = () => {
       {/* MOBILE INTERACTIVE OVERLAY */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-35 bg-slate-950/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-35 bg-fin-overlay backdrop-blur-xs md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -201,7 +201,7 @@ const Budgets = () => {
           variants={pageVariants}
           initial="initial"
           animate="animate"
-          className="flex-1 overflow-y-auto p-6 md:p-8 max-w-7xl mx-auto w-full space-y-8 no-scrollbar"
+          className="flex-1 overflow-y-auto p-4 md:p-6 max-w-7xl mx-auto w-full space-y-6 no-scrollbar"
         >
           {/* Header Action Section */}
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-fin-border pb-5">
@@ -251,7 +251,7 @@ const Budgets = () => {
           {/* Grid Layout of Envelopes */}
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 space-y-3 text-fin-text-muted">
-              <svg className="animate-spin h-7 w-7 text-emerald-500" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-7 w-7 text-fin-primary" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
@@ -270,21 +270,21 @@ const Budgets = () => {
                     <div className="space-y-4">
                       {/* Card Header Category Badge */}
                       <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-fin-border px-3 py-1 text-xs font-extrabold text-fin-text-secondary">
+                        <span className="inline-flex items-center rounded-xl bg-fin-input-bg dark:bg-fin-input-bg border border-fin-border px-3 py-1 text-xs font-extrabold text-fin-text-secondary">
                           {b.category}
                         </span>
                         
                         {/* Alert Badges */}
                         {isExceeded ? (
-                          <span className="rounded-full bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 text-[9px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider animate-pulse">
+                          <span className="rounded-full bg-fin-danger/12 border border-fin-danger/25 px-2.5 py-0.5 text-[9px] font-extrabold text-fin-danger uppercase tracking-wider animate-pulse">
                             🚨 Exceeded
                           </span>
                         ) : isWarning ? (
-                          <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 text-[9px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                          <span className="rounded-full bg-fin-warning/12 border border-fin-warning/25 px-2.5 py-0.5 text-[9px] font-extrabold text-fin-warning uppercase tracking-wider">
                             ⚠️ Warning ({b.alertThreshold}%)
                           </span>
                         ) : (
-                          <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-[9px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                          <span className="rounded-full bg-fin-success/12 border border-fin-success/25 px-2.5 py-0.5 text-[9px] font-extrabold text-fin-success uppercase tracking-wider">
                             ✔ Optimized
                           </span>
                         )}
@@ -299,13 +299,13 @@ const Budgets = () => {
 
                         {/* progress bar */}
                         <div className="mt-3">
-                          <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
+                          <div className="h-2 w-full rounded-full bg-fin-border overflow-hidden relative">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${Math.min(100, percent)}%` }}
                               transition={{ duration: 0.8, ease: 'easeOut' }}
                               className={`h-full rounded-full ${
-                                isExceeded ? 'bg-rose-500' : isWarning ? 'bg-amber-500' : 'bg-emerald-500'
+                                isExceeded ? 'bg-fin-danger' : isWarning ? 'bg-fin-warning' : 'bg-fin-success'
                               }`}
                             />
                           </div>
@@ -328,7 +328,7 @@ const Budgets = () => {
                         <button
                           type="button"
                           onClick={() => handleOpenEditModal(b)}
-                          className="rounded-lg p-1.5 text-fin-text-muted hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-fin-text-secondary transition cursor-pointer"
+                          className="rounded-lg p-1.5 text-fin-text-muted hover:bg-fin-hover-bg hover:text-fin-text-secondary transition cursor-pointer"
                           title="Edit Limit"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
@@ -338,7 +338,7 @@ const Budgets = () => {
                         <button
                           type="button"
                           onClick={() => handleDeleteBudget(b._id)}
-                          className="rounded-lg p-1.5 text-fin-text-muted hover:bg-rose-500/10 hover:text-rose-500 dark:hover:text-rose-400 transition cursor-pointer"
+                          className="rounded-lg p-1.5 text-fin-text-muted hover:bg-fin-danger/10 hover:text-fin-danger transition cursor-pointer"
                           title="Delete Limit"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
@@ -437,7 +437,7 @@ const Budgets = () => {
               <div className="space-y-2 pt-2">
                 <div className="flex justify-between text-xs font-bold text-fin-text-secondary">
                   <span>Warning Threshold</span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-extrabold">{formData.alertThreshold}%</span>
+                  <span className="text-fin-success font-extrabold">{formData.alertThreshold}%</span>
                 </div>
                 <input
                   type="range"

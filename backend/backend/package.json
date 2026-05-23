@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "tax-expense-planner-server": "file:.."
+  }
+}

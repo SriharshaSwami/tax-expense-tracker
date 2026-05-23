@@ -61,14 +61,14 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-fin-bg text-fin-text-primary relative overflow-hidden transition-colors duration-300">
       {/* Background glowing particles */}
-      <div className="absolute top-[-300px] right-[-150px] h-[700px] w-[700px] rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[140px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-200px] left-[-200px] h-[600px] w-[600px] rounded-full bg-indigo-500/3 dark:bg-indigo-500/5 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute -top-75 -right-37.5 h-175 w-175 rounded-full bg-fin-success/10 dark:bg-fin-success/15 blur-[140px] pointer-events-none z-0" />
+      <div className="absolute -bottom-50 -left-50 h-150 w-150 rounded-full bg-fin-primary/10 dark:bg-fin-primary/15 blur-[120px] pointer-events-none z-0" />
 
       {/* TOP HEADER PLATFORM NAVIGATION */}
-      <nav className="w-full border-b border-fin-border bg-white/70 dark:bg-slate-900/30 backdrop-blur-md relative z-10">
+      <nav className="w-full border-b border-fin-border bg-fin-card/90 backdrop-blur-md relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8 h-18 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <span className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-black shadow-lg shadow-emerald-500/20">
+            <span className="h-9 w-9 rounded-xl bg-linear-to-tr from-fin-primary to-fin-primary-dark flex items-center justify-center text-white font-black shadow-lg shadow-fin-primary/25">
               T
             </span>
             <span className="text-sm font-black uppercase tracking-wider text-fin-text-primary">
@@ -80,15 +80,15 @@ const Home = () => {
             {/* Theme switcher button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl border border-fin-border hover:bg-slate-100 dark:hover:bg-slate-800 text-fin-text-secondary hover:text-fin-text-primary transition duration-200 cursor-pointer"
+              className="p-2.5 rounded-xl border border-fin-border hover:bg-fin-hover-bg text-fin-text-secondary hover:text-fin-text-primary transition duration-200 cursor-pointer"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
-                <svg className="h-4.5 w-4.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <svg className="h-4.5 w-4.5 text-fin-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.8 5.7a8.1 8.1 0 11-10.4-10.4 8.5 8.5 0 1010.4 10.4z" />
                 </svg>
               ) : (
-                <svg className="h-4.5 w-4.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <svg className="h-4.5 w-4.5 text-fin-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
@@ -113,19 +113,19 @@ const Home = () => {
       </nav>
 
       {/* HERO SECTION */}
-      <main className="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28 relative z-10 flex flex-col items-center justify-center text-center space-y-12">
+      <main className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-16 relative z-10 flex flex-col items-center justify-center text-center space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="max-w-3xl space-y-6"
         >
-          <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3.5 py-1 text-xs font-bold text-emerald-650 dark:text-emerald-400 uppercase tracking-widest">
+          <span className="inline-flex items-center rounded-full bg-fin-success/10 px-3.5 py-1 text-xs font-bold text-fin-success uppercase tracking-widest">
             🛡 PREMIUM WEALTH STRATEGY SUITE
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-fin-text-primary tracking-tight leading-tight">
             Indian Taxes &amp; Spending Limits{' '}
-            <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-fin-success via-fin-info to-fin-primary bg-clip-text text-transparent">
               Unified in Real-Time
             </span>
           </h1>
@@ -169,7 +169,7 @@ const Home = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-2xl">{feat.icon}</span>
-                    <span className="text-[9px] font-extrabold uppercase bg-emerald-500/10 text-emerald-650 dark:text-emerald-400 px-2 py-0.5 rounded-full tracking-wider">
+                    <span className="text-[9px] font-extrabold uppercase bg-fin-success/10 text-fin-success px-2 py-0.5 rounded-full tracking-wider">
                       {feat.badge}
                     </span>
                   </div>
@@ -177,7 +177,7 @@ const Home = () => {
                   <p className="text-xs text-fin-text-muted leading-relaxed">{feat.desc}</p>
                 </div>
                 <div className="pt-3 border-t border-fin-border">
-                  <span className="text-[10px] font-bold text-emerald-650 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-fin-success uppercase tracking-widest flex items-center gap-1">
                     Configure Area
                     <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

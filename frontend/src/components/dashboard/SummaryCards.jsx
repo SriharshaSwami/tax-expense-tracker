@@ -1,5 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import incomeIcon from '../../assets/icons/income.svg'
+import expenseIcon from '../../assets/icons/expense.svg'
 
 const SummaryCards = ({ summary, loading }) => {
   const { totalIncome = 0, totalExpense = 0, balance = 0 } = summary || {}
@@ -51,35 +53,21 @@ const SummaryCards = ({ summary, loading }) => {
       <motion.div
         variants={cardVariants}
         whileHover={{ y: -3, boxShadow: 'var(--shadow-fin-md)' }}
-        className="group relative overflow-hidden rounded-2xl border border-emerald-500/10 dark:border-emerald-500/15 bg-white/70 dark:bg-slate-900/40 p-6 shadow-fin-sm backdrop-blur-md transition-all duration-300"
+        className="group relative overflow-hidden rounded-2xl border border-fin-border bg-fin-card p-6 shadow-fin-sm transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 h-16 w-16 rounded-bl-full bg-emerald-500/5 dark:bg-emerald-500/10 transition-all duration-300 group-hover:scale-110" />
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-fin-text-muted">Total Income</p>
-            <h3 className="mt-2 text-2xl font-black tracking-tight text-emerald-650 dark:text-emerald-400">
+            <h3 className="mt-2 text-2xl font-black tracking-tight text-fin-success">
               {formatCurrency(totalIncome)}
             </h3>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2.5"
-              stroke="currentColor"
-              className="h-5.5 w-5.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
-              />
-            </svg>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-fin-success/15 text-fin-success shadow-fin-sm">
+            <img src={incomeIcon} alt="Total income" className="h-6 w-6" />
           </div>
         </div>
-        <div className="mt-4 flex items-center text-[10px] text-fin-text-muted font-semibold">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-2" />
+        <div className="mt-4 flex items-center text-[10px] text-fin-text-muted font-bold uppercase tracking-wider">
+          <span className="h-1.5 w-1.5 rounded-full bg-fin-success mr-2" />
           Live earnings ledger synced
         </div>
       </motion.div>
@@ -88,35 +76,21 @@ const SummaryCards = ({ summary, loading }) => {
       <motion.div
         variants={cardVariants}
         whileHover={{ y: -3, boxShadow: 'var(--shadow-fin-md)' }}
-        className="group relative overflow-hidden rounded-2xl border border-rose-500/10 dark:border-rose-500/15 bg-white/70 dark:bg-slate-900/40 p-6 shadow-fin-sm backdrop-blur-md transition-all duration-300"
+        className="group relative overflow-hidden rounded-2xl border border-fin-border bg-fin-card p-6 shadow-fin-sm transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 h-16 w-16 rounded-bl-full bg-rose-500/5 dark:bg-rose-500/10 transition-all duration-300 group-hover:scale-110" />
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-fin-text-muted">Total Expense</p>
-            <h3 className="mt-2 text-2xl font-black tracking-tight text-rose-600 dark:text-rose-455">
+            <h3 className="mt-2 text-2xl font-black tracking-tight text-fin-danger">
               {formatCurrency(totalExpense)}
             </h3>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500 dark:text-rose-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2.5"
-              stroke="currentColor"
-              className="h-5.5 w-5.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 6L9 12.75l4.306-4.307a11.95 11.95 0 015.814 5.519l2.74 1.22m0 0l-5.94 2.28m5.94 2.28l-2.28 5.941"
-              />
-            </svg>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-fin-danger/15 text-fin-danger shadow-fin-sm">
+            <img src={expenseIcon} alt="Total expense" className="h-6 w-6" />
           </div>
         </div>
-        <div className="mt-4 flex items-center text-[10px] text-fin-text-muted font-semibold">
-          <span className="h-1.5 w-1.5 rounded-full bg-rose-500 mr-2" />
+        <div className="mt-4 flex items-center text-[10px] text-fin-text-muted font-bold uppercase tracking-wider">
+          <span className="h-1.5 w-1.5 rounded-full bg-fin-danger mr-2" />
           Active outflows recorded
         </div>
       </motion.div>
@@ -125,55 +99,38 @@ const SummaryCards = ({ summary, loading }) => {
       <motion.div
         variants={cardVariants}
         whileHover={{ y: -3, boxShadow: 'var(--shadow-fin-md)' }}
-        className={`group relative overflow-hidden rounded-2xl border p-6 shadow-fin-sm backdrop-blur-md transition-all duration-300 ${
-          balance >= 0
-            ? 'border-emerald-500/15 bg-gradient-to-br from-slate-900 to-emerald-950/60 dark:from-slate-950 dark:to-emerald-950/50 text-white'
-            : 'border-rose-500/15 bg-gradient-to-br from-slate-900 to-rose-950/60 dark:from-slate-950 dark:to-rose-950/50 text-white'
-        }`}
+        className="group relative overflow-hidden rounded-2xl border border-fin-border bg-fin-card p-6 shadow-fin-sm transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 h-16 w-16 rounded-bl-full bg-white/5 transition-all duration-300 group-hover:scale-110" />
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Net Surplus</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-fin-text-muted">Net Surplus</p>
             <h3 className={`mt-2 text-2xl font-black tracking-tight ${
-              balance >= 0 ? 'text-emerald-400' : 'text-rose-450'
+              balance >= 0 ? 'text-fin-primary' : 'text-fin-danger'
             }`}>
               {formatCurrency(balance)}
             </h3>
           </div>
-          <div className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${
-            balance >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+          <div className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors shadow-fin-sm ${
+            balance >= 0 ? 'bg-fin-primary/15 text-fin-primary' : 'bg-fin-danger/15 text-fin-danger'
           }`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="h-5.5 w-5.5"
+              fill="currentColor"
+              className="h-5 w-5"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
               {balance < 0 ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                />
+                <path d="M12 3.25a.75.75 0 01.67.41l8 16a.75.75 0 01-.67 1.09H4a.75.75 0 01-.67-1.09l8-16a.75.75 0 01.67-.41zm0 4.5a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75zm0 9a.9.9 0 100 1.8.9.9 0 000-1.8z" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12h6m-6 4h6m-6-8h6"
-                />
+                <path d="M6 6.25A2.25 2.25 0 018.25 4h7.5A2.25 2.25 0 0118 6.25v11.5A2.25 2.25 0 0115.75 20h-7.5A2.25 2.25 0 016 17.75V6.25zm3 3.5a.75.75 0 000 1.5h6a.75.75 0 000-1.5H9zm0 3.5a.75.75 0 000 1.5h6a.75.75 0 000-1.5H9z" />
               )}
             </svg>
           </div>
         </div>
-        <div className="mt-4 flex items-center text-[10px] text-slate-405 font-bold uppercase tracking-wider">
+        <div className="mt-4 flex items-center text-[10px] text-fin-text-muted font-bold uppercase tracking-wider">
+          <span className={`h-1.5 w-1.5 rounded-full mr-2 ${
+            balance >= 0 ? 'bg-fin-primary' : 'bg-fin-danger'
+          }`} />
           {balance >= 0 ? 'Net positive standing' : 'Budget warning active'}
         </div>
       </motion.div>

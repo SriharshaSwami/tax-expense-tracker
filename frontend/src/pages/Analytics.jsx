@@ -133,10 +133,10 @@ const Analytics = () => {
   }
 
   return (
-    <div className="min-h-screen bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-fin-bg text-fin-text-primary flex flex-col md:flex-row relative overflow-hidden">
       {/* ambient glows */}
-      <div className="absolute top-[-250px] right-[-150px] h-[600px] w-[600px] rounded-full bg-teal-500/5 dark:bg-teal-500/10 blur-[130px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-150px] left-[-150px] h-[500px] w-[500px] rounded-full bg-indigo-500/3 dark:bg-indigo-500/5 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute -top-62.5 -right-37.5 h-150 w-150 rounded-full bg-fin-success/5 dark:bg-fin-success/8 blur-[130px] pointer-events-none z-0" />
+      <div className="absolute -bottom-37.5 -left-37.5 h-125 w-125 rounded-full bg-fin-info/4 dark:bg-fin-info/6 blur-[120px] pointer-events-none z-0" />
 
       {/* SIDEBAR NAVIGATION */}
       <Sidebar mobileOpen={mobileMenuOpen} setMobileOpen={setMobileMenuOpen} />
@@ -144,7 +144,7 @@ const Analytics = () => {
       {/* MOBILE MENU INTERACTIVE OVERLAY */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-35 bg-slate-950/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-35 bg-fin-overlay backdrop-blur-xs md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -158,7 +158,7 @@ const Analytics = () => {
           variants={pageVariants}
           initial="initial"
           animate="animate"
-          className="flex-1 overflow-y-auto p-6 md:p-8 max-w-7xl mx-auto w-full space-y-8 no-scrollbar"
+          className="flex-1 overflow-y-auto p-4 md:p-6 max-w-7xl mx-auto w-full space-y-6 no-scrollbar"
         >
           <SectionHeader
             title="Analytical Insights"
@@ -219,7 +219,7 @@ const Analytics = () => {
             </div>
           ) : (
             /* CHARTS GRID & DETAILED INSIGHTS */
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Row 1: Line Chart & Pie Chart */}
               <div className="grid gap-8 lg:grid-cols-3">
                 {/* 1. LINE CHART: 6-Month Trend Curve */}

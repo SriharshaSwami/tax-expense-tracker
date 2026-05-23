@@ -1,73 +1,67 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import toast from 'react-hot-toast'
 import AuthLayout from '../components/AuthLayout'
-import Input from '../components/ui/Input'
-import Select from '../components/ui/Select'
+import FormField from '../components/ui/FormField'
 import Button from '../components/ui/Button'
 import { useAuth } from '../context/AuthContext'
 
+const registerSchema = z
+  .object({
+    name: z.string().min(1, 'Name is required').max(60, 'Name too long'),
+    email: z
+      .string()
+      .min(1, 'Email is required')
+      .email('Enter a valid email address'),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .max(72, 'Password too long'),
+    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    salary: z
+      .string()
+      .optional()
+      .transform((v) => (v ? Number(v) : 0))
+      .refine((v) => v >= 0, 'Salary cannot be negative'),
+    taxRegime: z.enum(['new', 'old']),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
+
 const Register = () => {
   const navigate = useNavigate()
-  const { register } = useAuth()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    salary: '',
-    taxRegime: 'new',
+  const { register: registerUser } = useAuth()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      salary: '',
+      taxRegime: 'new',
+    },
   })
-  const [errors, setErrors] = useState({})
-  const [loading, setLoading] = useState(false)
 
-  const validate = () => {
-    const newErrors = {}
-    if (!formData.name.trim()) newErrors.name = 'Name is required'
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Enter a valid email'
-    }
-    if (!formData.password) {
-      newErrors.password = 'Password is required'
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
-    }
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
-    }
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    setErrors((prev) => ({ ...prev, [name]: '' }))
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validate()) return
-
-    setLoading(true)
+  const onSubmit = async (data) => {
     try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        taxRegime: formData.taxRegime,
-        salary: formData.salary ? Number(formData.salary) : 0,
-      }
-      await register(payload)
+      const { confirmPassword, ...payload } = data
+      await registerUser(payload)
       toast.success('Welcome aboard TaxExpense Planner!')
       navigate('/dashboard')
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.'
+      const message =
+        error.response?.data?.message || 'Registration failed. Please try again.'
       toast.error(message)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -79,88 +73,87 @@ const Register = () => {
       footerLink="/login"
       footerLabel="Sign in"
     >
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <Input
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <FormField
           id="name"
-          name="name"
           type="text"
           label="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          error={errors.name}
           placeholder="Rahul Sharma"
-          required
+          error={errors.name?.message}
+          leftIcon="👤"
+          {...register('name')}
         />
 
-        <Input
+        <FormField
           id="email"
-          name="email"
           type="email"
           label="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
           placeholder="you@example.com"
           autoComplete="email"
-          required
+          error={errors.email?.message}
+          leftIcon="✉"
+          {...register('email')}
         />
 
         <div className="grid grid-cols-2 gap-4">
-          <Input
+          <FormField
             id="password"
-            name="password"
             type="password"
             label="Password"
-            value={formData.password}
-            onChange={handleChange}
-            error={errors.password}
             placeholder="••••••••"
             autoComplete="new-password"
-            required
+            error={errors.password?.message}
+            {...register('password')}
           />
-
-          <Input
+          <FormField
             id="confirmPassword"
-            name="confirmPassword"
             type="password"
             label="Confirm"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            error={errors.confirmPassword}
             placeholder="••••••••"
-            required
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Input
+          <FormField
             id="salary"
-            name="salary"
             type="number"
             label="Annual Salary (₹)"
-            value={formData.salary}
-            onChange={handleChange}
             placeholder="1200000"
+            error={errors.salary?.message}
+            leftIcon="₹"
+            {...register('salary')}
           />
 
-          <Select
-            id="taxRegime"
-            name="taxRegime"
-            label="Tax Regime"
-            value={formData.taxRegime}
-            onChange={handleChange}
-            options={[
-              { value: 'new', label: 'New Regime' },
-              { value: 'old', label: 'Old Regime' }
-            ]}
-          />
+          <div className="w-full space-y-1.5">
+            <label
+              htmlFor="taxRegime"
+              className="block text-xs font-semibold uppercase tracking-wider text-fin-text-secondary"
+            >
+              Tax Regime
+            </label>
+            <select
+              id="taxRegime"
+              className="w-full rounded-xl border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-none transition duration-150 border-fin-border focus:border-fin-primary focus:ring-2 focus:ring-fin-primary/20"
+              {...register('taxRegime')}
+            >
+              <option value="new">New Regime</option>
+              <option value="old">Old Regime</option>
+            </select>
+            {errors.taxRegime && (
+              <p className="text-xs text-rose-500 font-medium mt-1">
+                ⚠ {errors.taxRegime.message}
+              </p>
+            )}
+          </div>
         </div>
 
         <Button
           type="submit"
           variant="primary"
-          loading={loading}
-          className="w-full py-3 text-xs"
+          loading={isSubmitting}
+          className="w-full py-3"
         >
           Create account
         </Button>

@@ -24,12 +24,11 @@ const Input = React.forwardRef(({
         ref={ref}
         type={type}
         className={`
-          w-full rounded-xl border bg-slate-50/50 px-4 py-2.5 text-sm text-fin-text-primary outline-hidden
-          transition duration-150 focus:bg-white dark:focus:bg-slate-900/50 focus:ring-2 focus:ring-emerald-500/20
-          dark:bg-slate-900/30
+          w-full rounded-xl border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-hidden
+          transition duration-150 focus:bg-fin-card focus:ring-2 focus:ring-fin-primary/20
           ${error 
-            ? 'border-rose-450 focus:border-rose-500' 
-            : 'border-fin-border focus:border-emerald-500 dark:border-slate-800'
+            ? 'border-fin-danger focus:border-fin-danger focus:ring-fin-danger/20' 
+            : 'border-fin-border focus:border-fin-primary'
           }
           ${className}
         `}

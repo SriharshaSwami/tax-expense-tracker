@@ -53,7 +53,7 @@ const Modal = ({
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
             className={`
               relative w-full ${sizes[size]} rounded-2xl glass-panel p-6 shadow-fin-lg border border-fin-border
-              bg-white/95 dark:bg-slate-900/95 max-h-[90vh] overflow-y-auto z-10 flex flex-col ${className}
+              bg-fin-card/95 max-h-[90vh] overflow-y-auto z-10 flex flex-col ${className}
             `}
           >
             {/* Header */}
@@ -64,7 +64,7 @@ const Modal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg p-1.5 text-fin-text-muted hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                className="rounded-lg p-1.5 text-fin-text-muted hover:bg-fin-hover-bg transition cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

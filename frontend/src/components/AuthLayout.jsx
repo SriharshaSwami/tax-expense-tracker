@@ -9,7 +9,7 @@ const AuthLayout = ({ title, subtitle, children, footerText, footerLink, footerL
   return (
     <div className="min-h-screen bg-fin-bg text-fin-text-primary flex items-center justify-center relative overflow-hidden px-4 py-12 transition-colors duration-300">
       {/* Premium ambient glows */}
-      <div className="absolute top-[-200px] right-[-100px] h-[500px] w-[500px] rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-[-200px] right-[-100px] h-[500px] w-[500px] rounded-full bg-emerald-500/5 dark:bg-fin-success/10 blur-[120px] pointer-events-none z-0" />
       <div className="absolute bottom-[-150px] left-[-150px] h-[400px] w-[400px] rounded-full bg-indigo-500/5 dark:bg-indigo-500/8 blur-[100px] pointer-events-none z-0" />
 
       {/* FLOATING THEME SWITCHER TOGGLE */}
@@ -46,7 +46,7 @@ const AuthLayout = ({ title, subtitle, children, footerText, footerLink, footerL
         <div className="mb-8 text-center space-y-2">
           <Link
             to="/"
-            className="inline-block text-xs font-black uppercase tracking-widest text-emerald-650 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full hover:scale-102 transition duration-200"
+            className="inline-block text-xs font-black uppercase tracking-widest text-fin-success bg-fin-success/10 px-3 py-1 rounded-full hover:scale-102 transition duration-200"
           >
             TaxExpense Planner
           </Link>

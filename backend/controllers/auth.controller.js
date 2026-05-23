@@ -6,6 +6,9 @@ import {
   generateToken,
   sendTokenCookie,
 } from '../utils/jwt.js'
+import ApiResponse from '../utils/ApiResponse.js'
+import crypto from 'crypto'
+import { sendMail } from '../utils/mailer.js'
 
 const formatUser = (user) => ({
   _id: user._id,
@@ -45,11 +48,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const token = generateToken(user._id)
   sendTokenCookie(res, token)
 
-  res.status(201).json({
-    success: true,
-    message: 'Registration successful',
-    user: formatUser(user),
-  })
+  return ApiResponse.created(res, { user: formatUser(user) }, 'Registration successful')
 })
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -70,25 +69,72 @@ export const loginUser = asyncHandler(async (req, res) => {
   const token = generateToken(user._id)
   sendTokenCookie(res, token)
 
-  res.status(200).json({
-    success: true,
-    message: 'Login successful',
-    user: formatUser(user),
-  })
+  return ApiResponse.success(res, { user: formatUser(user) }, 'Login successful')
 })
 
 export const logoutUser = asyncHandler(async (req, res) => {
   clearTokenCookie(res)
 
-  res.status(200).json({
-    success: true,
-    message: 'Logged out successfully',
-  })
+  return ApiResponse.success(res, null, 'Logged out successfully')
 })
 
 export const getCurrentUser = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: formatUser(req.user),
+  return ApiResponse.success(res, { user: formatUser(req.user) })
+})
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body
+  if (!email) throw new AppError('Please provide an email', 400)
+
+  const user = await User.findOne({ email: email.toLowerCase() })
+  if (!user) throw new AppError('No user found with that email', 404)
+
+  const resetToken = user.createPasswordResetToken()
+  await user.save({ validateBeforeSave: false })
+
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&id=${user._id}`
+
+  const message = `You requested a password reset. Click the link to reset your password: ${resetUrl}`
+
+  try {
+    await sendMail({
+      to: user.email,
+      subject: 'Password reset request',
+      text: message,
+      html: `<p>${message}</p><p>If you did not request this, please ignore.</p>`,
+    })
+
+    return ApiResponse.success(res, null, 'Password reset email sent')
+  } catch (err) {
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+    await user.save({ validateBeforeSave: false })
+
+    throw new AppError('There was an error sending the email. Try again later.', 500)
+  }
+})
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { token, id, password } = req.body
+  if (!token || !id || !password) throw new AppError('Missing required fields', 400)
+
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+
+  const user = await User.findOne({
+    _id: id,
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
   })
+
+  if (!user) throw new AppError('Invalid or expired token', 400)
+
+  user.password = password
+  user.passwordResetToken = undefined
+  user.passwordResetExpires = undefined
+  await user.save()
+
+  const jwtToken = generateToken(user._id)
+  sendTokenCookie(res, jwtToken)
+
+  return ApiResponse.success(res, { user: formatUser(user) }, 'Password reset successful')
 })

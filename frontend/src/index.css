@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './styles/tokens.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
@@ -15,36 +16,115 @@
   --color-fin-text-muted: var(--fin-text-muted);
   --color-fin-glow: var(--fin-glow);
   
+  /* Modern High-Contrast Palette Colors */
+  --color-fin-primary: var(--fin-primary);
+  --color-fin-primary-dark: var(--fin-primary-dark);
+  --color-fin-primary-light: var(--fin-primary-light);
+  --color-fin-success: var(--fin-success);
+  --color-fin-warning: var(--fin-warning);
+  --color-fin-danger: var(--fin-danger);
+  --color-fin-info: var(--fin-info);
+  
+  /* Sidebar Specifics */
+  --color-fin-sidebar-bg: var(--fin-sidebar-bg);
+  --color-fin-sidebar-text: var(--fin-sidebar-text);
+  
+  /* Interface & Elements */
+  --color-fin-input-bg: var(--fin-input-bg);
+  --color-fin-hover-bg: var(--fin-hover-bg);
+  --color-fin-badge-bg: var(--fin-badge-bg);
+  --color-fin-badge-text: var(--fin-badge-text);
+  --color-fin-sidebar-subtle: var(--fin-sidebar-subtle);
+  --color-fin-overlay: var(--fin-overlay);
+  
   --shadow-fin-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
   --shadow-fin-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 16px -6px rgba(0, 0, 0, 0.05);
   --shadow-fin-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 12px 20px -8px rgba(0, 0, 0, 0.06);
   --shadow-fin-glow: 0 0 20px var(--fin-glow);
+
+  --animate-fade-in: fade-in 0.3s ease-out both;
+  --animate-slide-in: slide-in 0.25s ease-out both;
+  --animate-shimmer: shimmer 1.5s infinite linear;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
 }
 
 :root {
   --fin-bg: #f8fafc;
-  --fin-card: rgba(255, 255, 255, 0.75);
-  --fin-card-hover: rgba(255, 255, 255, 0.95);
-  --fin-border: rgba(226, 232, 240, 0.8);
-  --fin-border-hover: rgba(203, 213, 225, 0.9);
+  --fin-card: #ffffff;
+  --fin-card-hover: #f1f5f9;
+  --fin-border: #e2e8f0;
+  --fin-border-hover: #cbd5e1;
   --fin-text-primary: #0f172a;
-  --fin-text-secondary: #475569;
-  --fin-text-muted: #94a3b8;
-  --fin-glow: rgba(16, 185, 129, 0.08);
+  --fin-text-secondary: #334155;
+  --fin-text-muted: #64748b;
+  --fin-glow: rgba(37, 99, 235, 0.08);
+  
+  /* Palette Colors */
+  --fin-primary: #2563eb;
+  --fin-primary-dark: #1d4ed8;
+  --fin-primary-light: #60a5fa;
+  --fin-success: #16a34a;
+  --fin-warning: #f59e0b;
+  --fin-danger: #dc2626;
+  --fin-info: #0ea5e9;
+  
+  /* Sidebar Specifics */
+  --fin-sidebar-bg: #0f172a;
+  --fin-sidebar-text: #e2e8f0;
+  --fin-sidebar-subtle: #94a3b8;
+  
+  /* Inputs, Badges, Hovers */
+  --fin-input-bg: #eef2f8;
+  --fin-hover-bg: #eff6ff;
+  --fin-badge-bg: #e0e7ff;
+  --fin-badge-text: #3730a3;
+  --fin-overlay: rgba(15, 23, 42, 0.42);
   
   color-scheme: light;
 }
 
 .dark {
-  --fin-bg: #070913;
-  --fin-card: rgba(15, 22, 42, 0.7);
-  --fin-card-hover: rgba(23, 32, 59, 0.85);
-  --fin-border: rgba(30, 41, 59, 0.65);
-  --fin-border-hover: rgba(51, 65, 85, 0.85);
+  --fin-bg: #0f172a;
+  --fin-card: #111827;
+  --fin-card-hover: #1e293b;
+  --fin-border: #1f2937;
+  --fin-border-hover: #374151;
   --fin-text-primary: #f8fafc;
-  --fin-text-secondary: #cbd5e1;
-  --fin-text-muted: #64748b;
-  --fin-glow: rgba(16, 185, 129, 0.16);
+  --fin-text-secondary: #94a3b8;
+  --fin-text-muted: #cbd5e1;
+  --fin-glow: rgba(59, 130, 246, 0.16);
+  
+  /* Palette Colors */
+  --fin-primary: #3b82f6;
+  --fin-primary-light: #60a5fa;
+  --fin-success: #22c55e;
+  --fin-warning: #fbbf24;
+  --fin-danger: #f87171;
+  --fin-info: #38bdf8;
+  
+  /* Sidebar Specifics */
+  --fin-sidebar-bg: #0b1220;
+  --fin-sidebar-text: #acd5e1;
+  --fin-sidebar-subtle: #94a3b8;
+  
+  /* Inputs, Badges, Hovers */
+  --fin-input-bg: #1d2a44;
+  --fin-hover-bg: #1d2a44;
+  --fin-badge-bg: #1e3a8a;
+  --fin-badge-text: #dbeafe;
+  --fin-overlay: rgba(2, 6, 23, 0.65);
   
   color-scheme: dark;
 }
@@ -64,6 +144,9 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(circle at 12% 0%, color-mix(in oklab, var(--fin-primary) 16%, transparent) 0%, transparent 42%),
+    radial-gradient(circle at 88% 0%, color-mix(in oklab, var(--fin-success) 14%, transparent) 0%, transparent 36%);
 }
 
 /* Glassmorphism custom styling utilities */
@@ -77,6 +160,32 @@ body {
 .glass-panel:hover {
   background: var(--fin-card-hover);
   border-color: var(--fin-border-hover);
+}
+
+/* Defensive wrapping rules to prevent text escaping card bounds */
+.glass-panel, .glass-panel * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.glass-panel p, .glass-panel span, .glass-panel div {
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* Component-scoped defensive rules for Insight cards */
+.insight-card {
+  min-width: 0; /* allow flex items to shrink properly */
+}
+.insight-card .desc {
+  /* ensure multi-line clamp with safe wrapping */
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+.sidebar-surface {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--fin-sidebar-bg) 90%, #000) 0%, var(--fin-sidebar-bg) 48%, color-mix(in oklab, var(--fin-sidebar-bg) 88%, #010409) 100%);
 }
 
 /* Hide scrollbar but keep functionality */
@@ -106,3 +215,5 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--fin-border-hover);
 }
+
+/* Keep default Tailwind small type utilities — avoid global overrides */

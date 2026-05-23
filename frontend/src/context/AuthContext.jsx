@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const data = await getCurrentUser()
-      setUser(data.user)
+      setUser(data?.data?.user || data?.user)
     } catch {
       setUser(null)
     } finally {
@@ -29,13 +29,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     const data = await loginUser(credentials)
-    setUser(data.user)
+    setUser(data?.data?.user || data?.user)
     return data
   }
 
   const register = async (userData) => {
     const data = await registerUser(userData)
-    setUser(data.user)
+    setUser(data?.data?.user || data?.user)
     return data
   }
 

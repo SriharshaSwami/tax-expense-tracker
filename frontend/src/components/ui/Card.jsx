@@ -18,7 +18,7 @@ const Card = ({
       whileTap={isClickable ? { scale: 0.99 } : {}}
       className={`
         glass-panel rounded-2xl p-6 shadow-fin-sm transition duration-300
-        ${glow ? 'shadow-fin-glow border-emerald-500/20' : ''}
+        ${glow ? 'shadow-fin-glow border-fin-success/20' : ''}
         ${isClickable ? 'cursor-pointer' : ''}
         ${className}
       `}

@@ -18,13 +18,17 @@ import insightsRoutes from './routes/insights.routes.js'
 import budgetRoutes from './routes/budget.routes.js'
 import goalRoutes from './routes/goal.routes.js'
 import notificationRoutes from './routes/notification.routes.js'
+import eliteAuditRoutes from './routes/elite_audit.routes.js'
 
 // Custom Middleware Imports
 import errorHandler from './middleware/error.middleware.js'
-import { apiLimiter, authLimiter } from './middleware/rateLimiter.js'
+import { apiLimiter, authLimiter, notificationLimiter } from './middleware/rateLimiter.js'
 
 // Load System Variables
 dotenv.config()
+
+import { validateEnv } from './config/env.js'
+validateEnv()
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -130,6 +134,7 @@ app.use('/api/insights', insightsRoutes)
 app.use('/api/budgets', budgetRoutes)
 app.use('/api/goals', goalRoutes)
 app.use('/api/notifications', notificationRoutes)
+app.use('/api/elite-audit', eliteAuditRoutes)
 
 // API Landing health check
 app.get('/', (req, res) => {
@@ -144,6 +149,10 @@ app.get('/', (req, res) => {
 // Global Error Catching boundary
 app.use(errorHandler)
 
-app.listen(PORT, () => {
-  console.log(`Production Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Production Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`)
+  })
+}
+
+export default app

@@ -6,7 +6,7 @@ const InsightCard = ({ title, value, description, icon, color = 'emerald', loadi
     emerald: {
       bg: 'bg-emerald-50 border-emerald-100',
       text: 'text-emerald-700',
-      iconBg: 'bg-emerald-500/10 text-emerald-600',
+      iconBg: 'bg-fin-success/10 text-emerald-600',
       progressBg: 'bg-emerald-100',
       progressBar: 'bg-emerald-500',
     },
@@ -58,7 +58,7 @@ const InsightCard = ({ title, value, description, icon, color = 'emerald', loadi
   }
 
   return (
-    <div className={`rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between h-40`}>
+    <div className={`insight-card rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between h-40`}>
       <div className="flex items-start justify-between gap-4">
         <div className="overflow-hidden">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
@@ -90,7 +90,16 @@ const InsightCard = ({ title, value, description, icon, color = 'emerald', loadi
           </div>
         )}
 
-        <p className="text-xs text-slate-500 leading-relaxed truncate">
+        <p
+          className="text-xs text-slate-500 leading-relaxed desc"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {description}
         </p>
       </div>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .arrow{fill:#16a34a;}
+      .coin{fill:#16a34a;}
+      .coin-ring{fill:none;stroke:#ffffff;stroke-width:4;}
+      .coin-text{fill:#ffffff;font-family:Arial, sans-serif;font-size:20px;font-weight:700;}
+    </style>
+  </defs>
+  <path class="arrow" d="M32 6l20 20h-12v26H24V26H12L32 6z"/>
+  <circle class="coin" cx="46" cy="44" r="12"/>
+  <circle class="coin-ring" cx="46" cy="44" r="9"/>
+  <text class="coin-text" x="46" y="49" text-anchor="middle">$</text>
+</svg>

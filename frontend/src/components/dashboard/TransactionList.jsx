@@ -244,13 +244,13 @@ const TransactionList = () => {
                 name="category"
                 value={filters.category}
                 onChange={handleFilterChange}
-                className="w-full appearance-none rounded-xl border border-fin-border dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 px-4 py-2.5 text-sm text-fin-text-primary outline-hidden focus:bg-white dark:focus:bg-slate-900/50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition cursor-pointer pr-10"
+                className="w-full appearance-none rounded-xl border border-fin-border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-hidden transition duration-150 focus:bg-fin-card focus:ring-2 focus:ring-fin-primary/20 focus:border-fin-primary cursor-pointer pr-10"
               >
-                <option value="" className="bg-white dark:bg-slate-900 text-fin-text-primary">All Categories</option>
-                <optgroup label="Income" className="bg-white dark:bg-slate-900 text-fin-text-primary font-bold">
+                <option value="" className="bg-fin-card text-fin-text-primary">All Categories</option>
+                <optgroup label="Income" className="bg-fin-card text-fin-text-primary font-bold">
                   {INCOME_CATEGORIES.map(c => <option key={`in-${c}`} value={c}>{c}</option>)}
                 </optgroup>
-                <optgroup label="Expense" className="bg-white dark:bg-slate-900 text-fin-text-primary font-bold">
+                <optgroup label="Expense" className="bg-fin-card text-fin-text-primary font-bold">
                   {EXPENSE_CATEGORIES.map(c => <option key={`ex-${c}`} value={c}>{c}</option>)}
                 </optgroup>
               </select>
@@ -292,7 +292,7 @@ const TransactionList = () => {
       <Card hoverable={false} className="glass-panel p-0 overflow-hidden">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 text-fin-text-muted space-y-3">
-            <svg className="animate-spin h-7 w-7 text-emerald-500" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-7 w-7 text-fin-primary" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
@@ -308,25 +308,25 @@ const TransactionList = () => {
             />
           </div>
         ) : (
-          <div className="divide-y divide-fin-border">
+          <div className="divide-y divide-fin-border max-h-[60vh] overflow-y-auto no-scrollbar">
             {transactions.map((t) => (
               <div
                 key={t._id}
-                className="group flex flex-col justify-between p-5 sm:flex-row sm:items-center hover:bg-slate-50/40 dark:hover:bg-slate-900/10 transition duration-150"
+                className="group flex flex-col justify-between p-5 sm:flex-row sm:items-center hover:bg-fin-card-hover transition duration-150"
               >
                 {/* Info block */}
                 <div className="flex items-start space-x-4">
                   {/* Plus/minus badge */}
                   <div className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-black text-base shadow-fin-sm ${
                     t.type === 'income' 
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
-                      : 'bg-rose-500/10 text-rose-550 dark:text-rose-400'
+                      ? 'bg-fin-success/18 text-fin-success' 
+                      : 'bg-fin-danger/18 text-fin-danger'
                   }`}>
                     {t.type === 'income' ? '+' : '-'}
                   </div>
-
+ 
                   <div>
-                    <h5 className="font-bold text-fin-text-primary text-sm transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                    <h5 className="font-bold text-fin-text-primary text-sm transition-colors group-hover:text-fin-primary">
                       {t.title}
                     </h5>
                     
@@ -335,15 +335,15 @@ const TransactionList = () => {
                       <span className="h-1 w-1 rounded-full bg-fin-border" />
                       <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase border ${
                         t.type === 'income' 
-                          ? 'bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 border-emerald-500/15' 
-                          : 'bg-rose-500/5 text-rose-600 dark:text-rose-400 border-rose-500/15'
+                          ? 'bg-fin-success/12 text-fin-success border-fin-success/25' 
+                          : 'bg-fin-danger/12 text-fin-danger border-fin-danger/25'
                       }`}>
                         {t.category}
                       </span>
                       {t.receipt && t.receipt.url && (
                         <>
                           <span className="h-1 w-1 rounded-full bg-fin-border" />
-                          <span className="inline-flex items-center gap-0.5 text-[10px] font-extrabold uppercase text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 border border-emerald-500/15 rounded-full px-2.5 py-0.5">
+                          <span className="inline-flex items-center gap-0.5 text-[10px] font-extrabold uppercase text-fin-primary bg-fin-primary/15 border border-fin-primary/30 rounded-full px-2.5 py-0.5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="h-3 w-3">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.656-5.656l-3.394 3.394m3.394-3.394l-.009-.013" />
                             </svg>
@@ -364,18 +364,18 @@ const TransactionList = () => {
                 {/* Amount and editing triggers */}
                 <div className="mt-4 flex items-center justify-between border-t border-fin-border pt-3.5 sm:mt-0 sm:border-0 sm:pt-0 space-x-6">
                   <span className={`text-base font-black tracking-tight ${
-                    t.type === 'income' ? 'text-emerald-600 dark:text-emerald-405' : 'text-fin-text-primary'
+                    t.type === 'income' ? 'text-fin-success' : 'text-fin-danger'
                   }`}>
                     {t.type === 'income' ? '+' : '-'} {formatCurrency(t.amount)}
                   </span>
-
+ 
                   {/* Icon Actions */}
                   <div className="flex items-center space-x-1.5">
                     {t.receipt && t.receipt.url && (
                       <button
                         type="button"
                         onClick={() => handlePreviewClick(t)}
-                        className="rounded-lg p-1.5 text-emerald-600 hover:bg-emerald-500/10 transition cursor-pointer"
+                        className="rounded-lg p-1.5 text-fin-primary hover:bg-fin-primary/10 transition cursor-pointer"
                         title="View Receipt File"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
@@ -387,7 +387,7 @@ const TransactionList = () => {
                     <button
                       type="button"
                       onClick={() => openEditModal(t)}
-                      className="rounded-lg p-1.5 text-fin-text-muted hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-fin-text-secondary transition cursor-pointer"
+                      className="rounded-lg p-1.5 text-fin-text-muted hover:bg-fin-hover-bg hover:text-fin-text-secondary transition cursor-pointer"
                       title="Edit Entry"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
@@ -512,7 +512,7 @@ const TransactionList = () => {
               rows="2"
               value={editFormData.note}
               onChange={handleEditChange}
-              className="w-full rounded-xl border border-fin-border dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 px-4 py-2.5 text-sm text-fin-text-primary outline-hidden focus:bg-white dark:focus:bg-slate-900/50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition resize-none"
+              className="w-full rounded-xl border border-fin-border bg-fin-input-bg px-4 py-2.5 text-sm text-fin-text-primary outline-hidden transition duration-150 focus:bg-white dark:focus:bg-fin-card focus:ring-2 focus:ring-fin-primary/20 focus:border-fin-primary resize-none"
             />
           </div>
 

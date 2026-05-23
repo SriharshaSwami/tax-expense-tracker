@@ -1,54 +1,55 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import toast from 'react-hot-toast'
 import AuthLayout from '../components/AuthLayout'
-import Input from '../components/ui/Input'
+import FormField from '../components/ui/FormField'
 import Button from '../components/ui/Button'
 import { useAuth } from '../context/AuthContext'
 
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Enter a valid email address'),
+  password: z
+    .string()
+    .min(1, 'Password is required'),
+})
+
 const Login = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { login } = useAuth()
-  const [formData, setFormData] = useState({ email: '', password: '' })
-  const [errors, setErrors] = useState({})
-  const [loading, setLoading] = useState(false)
 
-  const validate = () => {
-    const newErrors = {}
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Enter a valid email'
-    }
-    if (!formData.password) {
-      newErrors.password = 'Password is required'
-    }
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
+  })
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    setErrors((prev) => ({ ...prev, [name]: '' }))
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validate()) return
-
-    setLoading(true)
+  const onSubmit = async (data) => {
     try {
-      await login(formData)
+      await login(data)
       toast.success('Welcome back to TaxExpense!')
       navigate('/dashboard')
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed. Please try again.'
       toast.error(message)
-    } finally {
-      setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (searchParams.get('reset') === '1') {
+      toast.success('Password updated. Please sign in.')
+      navigate('/login', { replace: true })
+    }
+  }, [navigate, searchParams])
 
   return (
     <AuthLayout
@@ -58,38 +59,43 @@ const Login = () => {
       footerLink="/register"
       footerLabel="Create one"
     >
-      <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-        <Input
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        <FormField
           id="email"
-          name="email"
           type="email"
           label="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
           placeholder="you@example.com"
           autoComplete="email"
-          required
+          error={errors.email?.message}
+          leftIcon="✉"
+          {...register('email')}
         />
 
-        <Input
+        <FormField
           id="password"
-          name="password"
           type="password"
           label="Password"
-          value={formData.password}
-          onChange={handleChange}
-          error={errors.password}
           placeholder="••••••••"
           autoComplete="current-password"
-          required
+          error={errors.password?.message}
+          leftIcon="🔒"
+          {...register('password')}
         />
+
+        <div className="flex justify-end">
+          <Link
+            to="/forgot-password"
+            className="text-xs font-semibold text-emerald-650 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-350 transition duration-200"
+          >
+            Forgot password?
+          </Link>
+        </div>
 
         <Button
           type="submit"
           variant="primary"
-          loading={loading}
-          className="w-full py-3 text-xs"
+          loading={isSubmitting}
+          className="w-full py-3"
         >
           Sign in
         </Button>

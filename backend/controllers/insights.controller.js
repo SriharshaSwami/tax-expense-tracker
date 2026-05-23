@@ -156,7 +156,10 @@ export const getSpendingPatterns = asyncHandler(async (req, res) => {
       success: true,
       patterns: {
         highestCategory: 'N/A',
+        highestAmount: 0,
         weekendOverspending: false,
+        weekendAvg: 0,
+        weekdayAvg: 0,
         spendingSpikes: [],
         recurringExpenses: [],
         unnecessarySpendRatio: 0,

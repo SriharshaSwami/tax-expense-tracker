@@ -12,6 +12,8 @@ import { FullPageLoader } from './components/ui/Loader'
 const Home = lazy(() => import('./pages/Home'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Analytics = lazy(() => import('./pages/Analytics'))
 const TaxCalculator = lazy(() => import('./pages/TaxCalculator'))
@@ -31,14 +33,14 @@ function App() {
                 className: 'toast-premium',
                 duration: 4000,
                 style: {
-                  background: 'var(--fin-bg-panel)',
+                  background: 'var(--fin-card)',
                   color: 'var(--fin-text-primary)',
                   border: '1px solid var(--fin-border)',
                   borderRadius: '16px',
                   fontSize: '12px',
                   fontWeight: '650',
                   padding: '12px 18px',
-                  boxShadow: 'var(--fin-shadow-md)',
+                  boxShadow: 'var(--shadow-fin-md)',
                 }
               }}
             />
@@ -111,6 +113,22 @@ function App() {
                   element={
                     <PublicRoute>
                       <Register />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/forgot-password"
+                  element={
+                    <PublicRoute>
+                      <ForgotPassword />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/reset-password"
+                  element={
+                    <PublicRoute>
+                      <ResetPassword />
                     </PublicRoute>
                   }
                 />
