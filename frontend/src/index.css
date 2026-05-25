@@ -149,6 +149,10 @@ body {
     radial-gradient(circle at 88% 0%, color-mix(in oklab, var(--fin-success) 14%, transparent) 0%, transparent 36%);
 }
 
+button:not(:disabled), a {
+  cursor: pointer;
+}
+
 /* Glassmorphism custom styling utilities */
 .glass-panel {
   background: var(--fin-card);

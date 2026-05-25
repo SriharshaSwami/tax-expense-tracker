@@ -367,6 +367,7 @@ const Budgets = () => {
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             title={editingBudget ? 'Adjust Envelope Cap' : 'Configure Envelope Cap'}
+            size="sm"
             footerActions={
               <>
                 <Button

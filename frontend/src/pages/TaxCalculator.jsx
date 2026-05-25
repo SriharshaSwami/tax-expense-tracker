@@ -21,6 +21,7 @@ import Header from '../components/layout/Header'
 import Card from '../components/ui/Card'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
+import Modal from '../components/ui/Modal'
 import SectionHeader from '../components/ui/SectionHeader'
 import EmptyState from '../components/ui/EmptyState'
 import {
@@ -62,6 +63,40 @@ const TaxCalculator = () => {
 
   // Calculation Result State
   const [results, setResults] = useState(null)
+
+  // Terminology Info Modal State
+  const [termInfo, setTermInfo] = useState(null)
+
+  const TAX_TERMS = {
+    annualSalary: {
+      title: "Annual Gross Salary",
+      description: "This is your total salary for the year before any taxes or deductions (like PF). You can find this in Part A of your Form 16 from your employer."
+    },
+    otherIncome: {
+      title: "Other Incomes",
+      description: "Any money earned outside your main salary. Examples include interest from savings or fixed deposits, rental income, freelance earnings, or capital gains."
+    },
+    hraExemption: {
+      title: "HRA Exemption",
+      description: "House Rent Allowance (HRA) is tax-exempt if you live in a rented house. Fill in the exempted amount calculated based on your rent receipts (usually provided by your HR/payroll portal)."
+    },
+    deductions80C: {
+      title: "Sec 80C Investments",
+      description: "Section 80C allows a maximum deduction of ₹1.5 Lakhs. Include your Employee Provident Fund (EPF), PPF, ELSS mutual funds, Life Insurance premiums, and principal payment of home loans."
+    },
+    deductions80D: {
+      title: "Sec 80D Medical Premium",
+      description: "Enter the premium paid for health/medical insurance for yourself, spouse, and children (up to ₹25k) and parents (additional ₹25k or ₹50k if senior citizens)."
+    },
+    homeLoanInterest: {
+      title: "Sec 24(b) Home Loan Interest",
+      description: "If you have a home loan for a self-occupied property, you can claim a deduction on the interest paid up to ₹2 Lakhs per year."
+    },
+    professionalTax: {
+      title: "Professional Tax (PT)",
+      description: "A state-level tax deducted by your employer. It usually amounts to around ₹2,500 per year. Check your payslip to find the exact deducted amount."
+    }
+  }
 
   // Fetch History on Mount
   useEffect(() => {
@@ -321,6 +356,7 @@ const TaxCalculator = () => {
                   onChange={handleChange}
                   placeholder="e.g. 1200000"
                   helperText="Refer to Form 16 Block A"
+                  onInfoClick={() => setTermInfo(TAX_TERMS.annualSalary)}
                 />
 
                 <Input
@@ -332,6 +368,7 @@ const TaxCalculator = () => {
                   onChange={handleChange}
                   placeholder="e.g. 50000"
                   helperText="Interests, Rent, or Freelancing earnings"
+                  onInfoClick={() => setTermInfo(TAX_TERMS.otherIncome)}
                 />
 
                 {/* EXEMPTIONS ACCORDION BOX */}
@@ -348,6 +385,7 @@ const TaxCalculator = () => {
                     value={inputs.hraExemption}
                     onChange={handleChange}
                     placeholder="e.g. 150000"
+                    onInfoClick={() => setTermInfo(TAX_TERMS.hraExemption)}
                   />
 
                   <Input
@@ -358,6 +396,7 @@ const TaxCalculator = () => {
                     value={inputs.deductions80C}
                     onChange={handleChange}
                     placeholder="EPF, PPF, ELSS (Max 1.5L)"
+                    onInfoClick={() => setTermInfo(TAX_TERMS.deductions80C)}
                   />
 
                   <Input
@@ -368,6 +407,7 @@ const TaxCalculator = () => {
                     value={inputs.deductions80D}
                     onChange={handleChange}
                     placeholder="Medical Insurance Policies"
+                    onInfoClick={() => setTermInfo(TAX_TERMS.deductions80D)}
                   />
 
                   <Input
@@ -378,6 +418,7 @@ const TaxCalculator = () => {
                     value={inputs.homeLoanInterest}
                     onChange={handleChange}
                     placeholder="Interest on Self-Occupied Home Loan"
+                    onInfoClick={() => setTermInfo(TAX_TERMS.homeLoanInterest)}
                   />
 
                   <Input
@@ -388,6 +429,7 @@ const TaxCalculator = () => {
                     value={inputs.professionalTax}
                     onChange={handleChange}
                     placeholder="Usually ₹2,500"
+                    onInfoClick={() => setTermInfo(TAX_TERMS.professionalTax)}
                   />
                 </div>
 
@@ -677,6 +719,39 @@ const TaxCalculator = () => {
               </div>
             )}
           </Card>
+
+          {/* TERMINOLOGY INFO MODAL */}
+          <Modal
+            isOpen={!!termInfo}
+            onClose={() => setTermInfo(null)}
+            title="Tax Terminology"
+            size="sm"
+            footerActions={
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setTermInfo(null)}
+              >
+                Got it
+              </Button>
+            }
+          >
+            {termInfo && (
+              <div className="space-y-3 py-2">
+                <div className="flex items-center gap-3 mb-2 border-b border-fin-border pb-3">
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-fin-primary/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-fin-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-fin-text-primary text-base">{termInfo.title}</h3>
+                </div>
+                <p className="text-sm text-fin-text-secondary leading-relaxed">
+                  {termInfo.description}
+                </p>
+              </div>
+            )}
+          </Modal>
         </motion.main>
       </div>
     </div>

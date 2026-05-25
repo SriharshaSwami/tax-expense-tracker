@@ -32,6 +32,9 @@ const SavingsGoals = () => {
   const [contributeGoal, setContributeGoal] = useState(null)
   const [contributeAmount, setContributeAmount] = useState('')
 
+  // Delete Confirmation State
+  const [goalToDelete, setGoalToDelete] = useState(null)
+
   const loadGoals = async () => {
     setLoading(true)
     try {
@@ -160,12 +163,17 @@ const SavingsGoals = () => {
     }
   }
 
-  const handleDeleteGoal = async (id) => {
-    if (!window.confirm('Are you sure you want to permanently clear this savings milestone?')) return
+  const handleDeleteGoal = (goal) => {
+    setGoalToDelete(goal)
+  }
+
+  const confirmDeleteGoal = async () => {
+    if (!goalToDelete) return
     try {
-      const res = await deleteGoal(id)
+      const res = await deleteGoal(goalToDelete._id)
       if (res.success) {
         toast.success('Savings milestone cleared successfully')
+        setGoalToDelete(null)
         loadGoals()
       }
     } catch (err) {
@@ -346,7 +354,7 @@ const SavingsGoals = () => {
                         {/* Delete Button */}
                         <button
                           type="button"
-                          onClick={() => handleDeleteGoal(g._id)}
+                          onClick={() => handleDeleteGoal(g)}
                           className="rounded-lg p-1.5 text-fin-text-muted hover:bg-fin-danger/10 hover:text-fin-danger transition cursor-pointer"
                           title="Purge"
                         >
@@ -376,6 +384,7 @@ const SavingsGoals = () => {
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             title={editingGoal ? 'Edit Savings Target' : 'Establish Savings Goal'}
+            size="sm"
             footerActions={
               <>
                 <Button
@@ -445,6 +454,7 @@ const SavingsGoals = () => {
             isOpen={!!contributeGoal}
             onClose={() => setContributeGoal(null)}
             title={contributeGoal ? `Add Contribution: "${contributeGoal.title}"` : 'Milestone Contribution'}
+            size="sm"
             footerActions={
               <>
                 <Button
@@ -495,6 +505,48 @@ const SavingsGoals = () => {
                   ))}
                 </div>
               </form>
+            )}
+          </Modal>
+
+          {/* DELETE CONFIRMATION MODAL */}
+          <Modal
+            isOpen={!!goalToDelete}
+            onClose={() => setGoalToDelete(null)}
+            title="Purge Milestone"
+            size="sm"
+            footerActions={
+              <>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setGoalToDelete(null)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={confirmDeleteGoal}
+                >
+                  Purge Goal
+                </Button>
+              </>
+            }
+          >
+            {goalToDelete && (
+              <div className="flex flex-col items-center justify-center py-2 text-center space-y-4">
+                <div className="h-12 w-12 rounded-full bg-red-500/10 flex items-center justify-center mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </div>
+                <p className="text-fin-text-primary text-sm font-bold">
+                  Are you sure you want to permanently clear the <span className="text-red-500">"{goalToDelete.title}"</span> milestone?
+                </p>
+                <p className="text-xs text-fin-text-muted leading-relaxed">
+                  This action cannot be undone and will permanently remove all tracked progress for this target.
+                </p>
+              </div>
             )}
           </Modal>
 
