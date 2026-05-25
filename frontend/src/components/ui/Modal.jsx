@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Modal = ({
@@ -10,6 +11,12 @@ const Modal = ({
   footerActions,
   className = ''
 }) => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Handle escape key to close
   useEffect(() => {
     const handleEscape = (e) => {
@@ -32,7 +39,7 @@ const Modal = ({
     xl: 'max-w-2xl'
   }
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -89,6 +96,10 @@ const Modal = ({
       )}
     </AnimatePresence>
   )
+
+  if (!mounted) return null
+
+  return createPortal(modalContent, document.body)
 }
 
 export default Modal
