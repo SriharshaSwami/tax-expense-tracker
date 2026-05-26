@@ -417,6 +417,7 @@ const TransactionList = () => {
         isOpen={!!editingTransaction}
         onClose={closeEditModal}
         title="Edit Audit Entry"
+        size="sm"
         footerActions={
           <>
             <Button

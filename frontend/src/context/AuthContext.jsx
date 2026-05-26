@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  googleLogin,
 } from '../services/authService'
 
 const AuthContext = createContext(null)
@@ -33,6 +34,12 @@ export const AuthProvider = ({ children }) => {
     return data
   }
 
+  const loginWithGoogle = async (credential) => {
+    const data = await googleLogin(credential)
+    setUser(data?.data?.user || data?.user)
+    return data
+  }
+
   const register = async (userData) => {
     const data = await registerUser(userData)
     setUser(data?.data?.user || data?.user)
@@ -48,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    loginWithGoogle,
     register,
     logout,
     isAuthenticated: !!user,

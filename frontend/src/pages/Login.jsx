@@ -8,6 +8,7 @@ import AuthLayout from '../components/AuthLayout'
 import FormField from '../components/ui/FormField'
 import Button from '../components/ui/Button'
 import { useAuth } from '../context/AuthContext'
+import GoogleAuthButton from '../components/common/GoogleAuthButton'
 
 const loginSchema = z.object({
   email: z
@@ -99,6 +100,16 @@ const Login = () => {
         >
           Sign in
         </Button>
+
+        <div className="flex items-center pt-2 pb-2">
+          <div className="flex-1 border-t border-fin-border"></div>
+          <span className="px-4 text-[11px] font-extrabold uppercase tracking-widest text-fin-text-muted">
+            Or
+          </span>
+          <div className="flex-1 border-t border-fin-border"></div>
+        </div>
+
+        <GoogleAuthButton />
       </form>
     </AuthLayout>
   )

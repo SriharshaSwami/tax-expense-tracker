@@ -568,16 +568,16 @@ const TaxCalculator = () => {
                   {/* 3. RECHARTS COMPARATIVE PLOTS */}
                   <div className="grid gap-6 md:grid-cols-2">
                     {/* Old vs New Comparative Bar Chart */}
-                    <Card hoverable={false} className="flex flex-col h-72">
+                    <Card hoverable={false} className="flex flex-col h-72 min-w-0">
                       <span className="text-xs font-bold text-fin-text-primary pb-4">Old vs. New Slabs Comparatives</span>
-                      <div className="flex-1 min-h-0">
+                      <div className="flex-1 min-h-0 min-w-0 w-full h-full">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
                             <XAxis dataKey="name" fontSize={11} stroke={textColor} tickLine={false} />
                             <YAxis fontSize={11} stroke={textColor} tickLine={false} />
                             <ChartTooltip formatter={(v) => [formatRupee(v)]} contentStyle={{ fontSize: 11, borderRadius: 10, background: 'var(--fin-card)', borderColor: 'var(--fin-border)', color: 'var(--fin-text-primary)' }} />
-                            <Legend iconSize={8} iconType="circle" wrapperStyle={{ fontSize: 11, color: 'var(--fin-text-primary)' }} />
+                            <Legend layout="horizontal" verticalAlign="bottom" align="center" iconSize={8} iconType="circle" wrapperStyle={{ fontSize: 11, color: 'var(--fin-text-primary)', paddingTop: '20px' }} />
                             <Bar dataKey="Deductions" fill="#6366F1" radius={[4, 4, 0, 0]} />
                             <Bar dataKey="Tax Payable" fill="#EF4444" radius={[4, 4, 0, 0]} />
                           </BarChart>
@@ -586,9 +586,9 @@ const TaxCalculator = () => {
                     </Card>
 
                     {/* Tax vs Net Take-Home Pie Chart */}
-                    <Card hoverable={false} className="flex flex-col h-72">
+                    <Card hoverable={false} className="flex flex-col h-72 min-w-0">
                       <span className="text-xs font-bold text-fin-text-primary pb-4">Tax share from Gross Earnings</span>
-                      <div className="flex-1 min-h-0">
+                      <div className="flex-1 min-h-0 min-w-0 w-full h-full">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
                             <Pie
@@ -605,7 +605,7 @@ const TaxCalculator = () => {
                               ))}
                             </Pie>
                             <ChartTooltip formatter={(v) => [formatRupee(v)]} contentStyle={{ fontSize: 11, borderRadius: 10, background: 'var(--fin-card)', borderColor: 'var(--fin-border)', color: 'var(--fin-text-primary)' }} />
-                            <Legend iconSize={8} iconType="circle" wrapperStyle={{ fontSize: 11, color: 'var(--fin-text-primary)' }} />
+                            <Legend layout="horizontal" verticalAlign="bottom" align="center" iconSize={8} iconType="circle" wrapperStyle={{ fontSize: 11, color: 'var(--fin-text-primary)', paddingTop: '20px' }} />
                           </PieChart>
                         </ResponsiveContainer>
                       </div>

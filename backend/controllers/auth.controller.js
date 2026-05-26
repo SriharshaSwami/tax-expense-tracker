@@ -1,4 +1,5 @@
 import User from '../models/User.js'
+import { OAuth2Client } from 'google-auth-library'
 import AppError from '../utils/AppError.js'
 import asyncHandler from '../utils/asyncHandler.js'
 import {
@@ -16,6 +17,8 @@ const formatUser = (user) => ({
   name: user.name,
   email: user.email,
   avatar: user.avatar,
+  profilePicture: user.profilePicture,
+  authProvider: user.authProvider,
   salary: user.salary,
   taxRegime: user.taxRegime,
   createdAt: user.createdAt,
@@ -79,6 +82,57 @@ export const logoutUser = asyncHandler(async (req, res) => {
   return ApiResponse.success(res, null, 'Logged out successfully')
 })
 
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+
+export const googleAuth = asyncHandler(async (req, res) => {
+  const { credential } = req.body
+
+  if (!credential) {
+    throw new AppError('Google credential token is missing', 400)
+  }
+
+  const ticket = await googleClient.verifyIdToken({
+    idToken: credential,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  })
+
+  const payload = ticket.getPayload()
+  const { sub: googleId, email, name, picture } = payload
+
+  let user = await User.findOne({ email: email.toLowerCase().trim() })
+
+  if (user) {
+    let updated = false
+    if (!user.googleId) {
+      user.googleId = googleId
+      user.authProvider = 'google'
+      updated = true
+    }
+    if (!user.profilePicture && picture) {
+      user.profilePicture = picture
+      user.avatar = picture // maintain backwards compatibility
+      updated = true
+    }
+    if (updated) await user.save({ validateBeforeSave: false })
+  } else {
+    user = await User.create({
+      name,
+      email: email.toLowerCase().trim(),
+      googleId,
+      profilePicture: picture,
+      avatar: picture,
+      authProvider: 'google',
+      salary: 0,
+      taxRegime: 'new'
+    })
+  }
+
+  const token = generateToken(user._id)
+  sendTokenCookie(res, token)
+
+  return ApiResponse.success(res, { user: formatUser(user), token }, 'Google Login successful')
+})
+
 export const getCurrentUser = asyncHandler(async (req, res) => {
   const token = req.cookies.token
   if (!token) {
@@ -102,12 +156,15 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   if (!email) throw new AppError('Please provide an email', 400)
 
   const user = await User.findOne({ email: email.toLowerCase().trim() })
-  if (!user) throw new AppError('No user found with that email', 404)
+  if (!user) {
+    // Anti-enumeration: return success even if user not found
+    return ApiResponse.success(res, null, 'If that email is registered, a reset link has been sent.')
+  }
 
   const resetToken = user.createPasswordResetToken()
   await user.save({ validateBeforeSave: false })
 
-  const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&id=${user._id}`
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`
 
   const message = `You requested a password reset. Click the link to reset your password: ${resetUrl}`
   const htmlContent = getPasswordResetEmailTemplate(resetUrl, user.name || 'there')
@@ -122,7 +179,10 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
     return ApiResponse.success(res, null, 'Password reset email sent')
   } catch (err) {
-    console.error('Nodemailer Error:', err)
+    console.error('Nodemailer Error:', err.message)
+    console.error('SMTP Error Code:', err.code)
+    console.error('SMTP Response:', err.response)
+    console.error('Full Error:', err)
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
     await user.save({ validateBeforeSave: false })
@@ -132,13 +192,18 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 })
 
 export const resetPassword = asyncHandler(async (req, res) => {
-  const { token, id, password } = req.body
-  if (!token || !id || !password) throw new AppError('Missing required fields', 400)
+  const { token } = req.params
+  const { password } = req.body
+  
+  if (!token || !password) throw new AppError('Missing required fields', 400)
+  
+  if (password.length < 6) {
+    throw new AppError('Password must be at least 6 characters', 400)
+  }
 
   const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
 
   const user = await User.findOne({
-    _id: id,
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   })

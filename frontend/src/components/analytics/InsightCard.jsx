@@ -41,7 +41,7 @@ const InsightCard = ({ title, value, description, icon, color = 'emerald', loadi
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs animate-pulse flex flex-col justify-between h-40">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs animate-pulse flex flex-col justify-between h-full min-h-[10rem]">
         <div className="flex items-start justify-between">
           <div className="space-y-2.5 w-2/3">
             <div className="h-3.5 bg-slate-150 rounded-md w-3/4" />
@@ -58,7 +58,7 @@ const InsightCard = ({ title, value, description, icon, color = 'emerald', loadi
   }
 
   return (
-    <div className={`insight-card rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between h-40`}>
+    <div className={`insight-card rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between h-full min-h-[10rem]`}>
       <div className="flex items-start justify-between gap-4">
         <div className="overflow-hidden">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">

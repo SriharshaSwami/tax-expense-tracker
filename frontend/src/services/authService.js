@@ -10,6 +10,11 @@ export const loginUser = async (credentials) => {
   return data
 }
 
+export const googleLogin = async (credential) => {
+  const { data } = await api.post('/auth/google', { credential })
+  return data
+}
+
 export const logoutUser = async () => {
   const { data } = await api.post('/auth/logout')
   return data
@@ -25,7 +30,7 @@ export const forgotPassword = async (payload) => {
   return data
 }
 
-export const resetPassword = async (payload) => {
-  const { data } = await api.post('/auth/reset-password', payload)
+export const resetPassword = async (token, payload) => {
+  const { data } = await api.post(`/auth/reset-password/${token}`, payload)
   return data
 }

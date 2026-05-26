@@ -1,7 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import './styles/tokens.css';
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
@@ -166,15 +165,9 @@ button:not(:disabled), a {
   border-color: var(--fin-border-hover);
 }
 
-/* Defensive wrapping rules to prevent text escaping card bounds */
-.glass-panel, .glass-panel * {
+/* Safely constrain glass panel contents without breaking external libraries */
+.glass-panel {
   box-sizing: border-box;
-  max-width: 100%;
-}
-.glass-panel p, .glass-panel span, .glass-panel div {
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
 }
 
 /* Component-scoped defensive rules for Insight cards */

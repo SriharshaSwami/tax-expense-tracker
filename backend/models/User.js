@@ -16,15 +16,34 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
     password: {
       type: String,
-      required: [true, 'Password is required'],
+      required: [
+        function() {
+          return !this.googleId
+        },
+        'Password is required',
+      ],
       minlength: [6, 'Password must be at least 6 characters'],
       select: false,
     },
     avatar: {
       type: String,
       default: '',
+    },
+    profilePicture: {
+      type: String,
+      default: '',
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local',
     },
     salary: {
       type: Number,
@@ -44,7 +63,7 @@ const userSchema = new mongoose.Schema(
 )
 
 userSchema.pre('save', async function () {
-  if (!this.isModified('password')) return
+  if (!this.isModified('password') || !this.password) return
 
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
@@ -63,8 +82,8 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex')
 
-  // Token valid for 1 hour
-  this.passwordResetExpires = Date.now() + 60 * 60 * 1000
+  // Token valid for 10 minutes (strict security)
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000
 
   return resetToken
 }

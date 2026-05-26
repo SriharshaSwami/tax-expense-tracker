@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import FormField from '../components/ui/FormField'
 import Button from '../components/ui/Button'
@@ -23,13 +23,10 @@ const resetSchema = z
   })
 
 const ResetPassword = () => {
-  const [searchParams] = useSearchParams()
+  const { token } = useParams()
   const [resetDone, setResetDone] = useState(false)
 
-  const token = searchParams.get('token')
-  const id = searchParams.get('id')
-
-  const missingParams = useMemo(() => !token || !id, [token, id])
+  const missingParams = useMemo(() => !token, [token])
 
   const {
     register,
@@ -50,9 +47,7 @@ const ResetPassword = () => {
     }
 
     try {
-      await resetPassword({
-        token,
-        id,
+      await resetPassword(token, {
         password: data.password,
       })
       toast.success('Password reset successful. Please sign in.')
