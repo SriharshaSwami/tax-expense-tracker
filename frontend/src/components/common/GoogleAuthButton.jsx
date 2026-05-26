@@ -48,7 +48,6 @@ const GoogleAuthButton = () => {
         <GoogleLogin
           onSuccess={handleSuccess}
           onError={handleError}
-          useOneTap
           theme="outline"
           size="large"
           shape="pill"
