@@ -37,7 +37,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       await login(data)
-      toast.success('Welcome back to TaxExpense!')
+      toast.success('Welcome back to FinPulse!')
       navigate('/dashboard')
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed. Please try again.'

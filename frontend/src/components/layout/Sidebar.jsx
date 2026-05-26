@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
+import finPulseLogo from '../../assets/finpulse-logo.png'
 
 const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth()
@@ -119,13 +120,13 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             className="sidebar-surface fixed top-0 left-0 z-40 h-screen w-64 border-r border-fin-border/20 bg-fin-sidebar-bg text-fin-sidebar-text p-6 flex flex-col justify-between md:hidden shadow-fin-lg"
           >
             <div>
-              <div className="flex items-center gap-2.5 border-b border-fin-border/15 pb-5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-fin-primary text-white font-bold text-base shadow-fin-sm">
-                  T
-                </div>
-                <span className="text-sm font-black uppercase tracking-wider text-white">
-                  TaxExpense Planner
-                </span>
+              <div className="flex items-center border-b border-fin-border/15 pb-5">
+                <img 
+                  src={finPulseLogo} 
+                  alt="FinPulse" 
+                  className="h-9 w-auto max-w-none"
+                  style={{ objectFit: 'contain', background: 'transparent', filter: 'brightness(0) invert(1)' }}
+                />
               </div>
 
               <nav className="mt-8 space-y-1">
@@ -186,19 +187,13 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       >
         <div>
           {/* Logo Brand Header */}
-          <div className="flex items-center gap-3 border-b border-fin-border/15 pb-5 overflow-hidden">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-fin-primary text-white font-extrabold text-lg shadow-fin-sm">
-              T
-            </div>
-            {!isCollapsed && (
-              <motion.span
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="text-xs font-black uppercase tracking-widest text-white whitespace-nowrap"
-              >
-                TaxExpense Planner
-              </motion.span>
-            )}
+          <div className="flex items-center border-b border-fin-border/15 pb-5 overflow-hidden">
+            <img 
+              src={finPulseLogo} 
+              alt="FinPulse" 
+              className={`h-12 max-w-none transition-all duration-300 ${isCollapsed ? 'w-13 object-cover' : 'w-auto'}`}
+              style={{ objectFit: 'contain', background: 'transparent', filter: 'brightness(0) invert(1)' }}
+            />
           </div>
 
           {/* Navigation Items */}

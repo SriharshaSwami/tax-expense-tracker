@@ -16,11 +16,12 @@ const createTransporter = () => {
         console.log(`Text: ${options.text}`)
         console.log('------------------')
         return { messageId: 'mock-id' }
-      }
+      },
+      verify: (cb) => cb(null, true), // mock verify for fallback
     }
   }
 
-  return nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host,
     port: Number(port),
     secure: Number(port) === 465, // true for 465, false for other ports
@@ -32,7 +33,18 @@ const createTransporter = () => {
     greetingTimeout: 10000,
     socketTimeout: 10000,
   })
+
+  // Production diagnostics — log SMTP connectivity on startup
+  transporter.verify((error, success) => {
+    if (error) console.error('SMTP Connection Failed:', error)
+    else console.log('SMTP Server ready')
+  })
+
+  return transporter
 }
+
+// Exported so the test-smtp route can call verify() on demand
+export { createTransporter }
 
 export const sendMail = async ({ to, subject, text, html, from }) => {
   const transporter = createTransporter()

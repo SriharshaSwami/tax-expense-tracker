@@ -56,7 +56,7 @@ const Register = () => {
     try {
       const { confirmPassword, ...payload } = data
       await registerUser(payload)
-      toast.success('Welcome aboard TaxExpense Planner!')
+      toast.success('Welcome aboard FinPulse!')
       navigate('/dashboard')
     } catch (error) {
       const message =

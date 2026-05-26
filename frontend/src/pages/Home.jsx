@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
+import finPulseLogo from '../assets/finpulse-logo.png'
 
 const Home = () => {
   const { user } = (() => {
@@ -67,31 +68,44 @@ const Home = () => {
       {/* TOP HEADER PLATFORM NAVIGATION */}
       <nav className="w-full border-b border-fin-border bg-fin-card/90 backdrop-blur-md relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8 h-18 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <span className="h-9 w-9 rounded-xl bg-linear-to-tr from-fin-primary to-fin-primary-dark flex items-center justify-center text-white font-black shadow-lg shadow-fin-primary/25">
-              T
-            </span>
-            <span className="text-sm font-black uppercase tracking-wider text-fin-text-primary">
-              TaxExpense
-            </span>
-          </div>
+          <Link to="/" className="flex items-center">
+            <img
+              src={finPulseLogo}
+              alt="FinPulse"
+              className="h-14 md:h-16 w-auto object-contain transition-all duration-300"
+              style={{
+                background: 'transparent',
+                filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none',
+              }}
+            />
+          </Link>
 
           <div className="flex items-center space-x-4">
             {/* Theme switcher button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl border border-fin-border hover:bg-fin-hover-bg text-fin-text-secondary hover:text-fin-text-primary transition duration-200 cursor-pointer"
+              className={`relative inline-flex h-7 w-12 items-center rounded-full border border-fin-border transition duration-200 cursor-pointer ${
+                theme === 'dark' ? 'bg-fin-primary/70' : 'bg-fin-hover-bg'
+              }`}
               aria-label="Toggle Theme"
+              role="switch"
+              aria-checked={theme === 'dark'}
             >
-              {theme === 'dark' ? (
-                <svg className="h-4.5 w-4.5 text-fin-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.8 5.7a8.1 8.1 0 11-10.4-10.4 8.5 8.5 0 1010.4 10.4z" />
-                </svg>
-              ) : (
-                <svg className="h-4.5 w-4.5 text-fin-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
+              <span
+                className={`inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                  theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              >
+                {theme === 'dark' ? (
+                  <svg className="h-3.5 w-3.5 text-fin-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.8 5.7a8.1 8.1 0 11-10.4-10.4 8.5 8.5 0 1010.4 10.4z" />
+                  </svg>
+                ) : (
+                  <svg className="h-3.5 w-3.5 text-fin-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
+              </span>
             </button>
 
             {user ? (
@@ -192,7 +206,7 @@ const Home = () => {
 
       {/* FOOTER */}
       <footer className="w-full border-t border-fin-border py-8 text-center text-xs text-fin-text-muted relative z-10">
-        <p>© 2026 TaxExpense Planner. Overhauled with premium visual primitives and responsive dark/light models.</p>
+        <p>© 2026 FinPulse. Overhauled with premium visual primitives and responsive dark/light models.</p>
       </footer>
     </div>
   )
