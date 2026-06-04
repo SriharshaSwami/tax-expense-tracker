@@ -172,7 +172,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   try {
     await sendMail({
       to: user.email,
-      subject: 'TaxExpense Planner - Password Reset Request',
+      subject: 'FinPulse - Password Reset Request',
       text: message,
       html: htmlContent,
     })

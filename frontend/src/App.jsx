@@ -6,7 +6,9 @@ import PublicRoute from './components/PublicRoute'
 import { AuthProvider } from './context/AuthContext'
 import { TransactionProvider } from './context/TransactionContext'
 import { ThemeProvider } from './context/ThemeContext'
+import { AiChatProvider } from './context/AiChatContext'
 import { FullPageLoader } from './components/ui/Loader'
+import ChatWidget from './components/AiChat/ChatWidget'
 
 // Lazy Loaded Route Entry Pages
 const Home = lazy(() => import('./pages/Home'))
@@ -27,7 +29,8 @@ function App() {
       <AuthProvider>
         <TransactionProvider>
           <BrowserRouter>
-            <Toaster
+            <AiChatProvider>
+              <Toaster
               position="top-right"
               toastOptions={{
                 className: 'toast-premium',
@@ -136,7 +139,9 @@ function App() {
                 {/* Catch all fallback route */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+              <ChatWidget />
             </Suspense>
+            </AiChatProvider>
           </BrowserRouter>
         </TransactionProvider>
       </AuthProvider>

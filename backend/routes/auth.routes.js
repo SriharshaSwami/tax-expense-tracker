@@ -39,7 +39,7 @@ router.get('/test-email', async (req, res) => {
   try {
     await sendMail({
       to: process.env.EMAIL_FROM,
-      subject: 'Brevo Test — Taxsathi',
+      subject: 'Brevo Test — FinPulse',
       html: '<p>If you see this, Brevo API email is working on Render.</p>',
     })
     res.json({ status: 'ok', message: 'Test email sent via Brevo API' })

@@ -3,6 +3,7 @@ import {
   getFinancialHealth,
   getSpendingPatterns,
   getRecommendations,
+  getUnifiedDashboardInsights
 } from '../controllers/insights.controller.js'
 import { protectRoute } from '../middleware/auth.middleware.js'
 
@@ -10,6 +11,9 @@ const router = express.Router()
 
 // Secure all endpoints in this router
 router.use(protectRoute)
+
+// GET /api/insights/dashboard
+router.get('/dashboard', getUnifiedDashboardInsights)
 
 // GET /api/insights/financial-health
 router.get('/financial-health', getFinancialHealth)

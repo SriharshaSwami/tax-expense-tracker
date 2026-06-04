@@ -17,7 +17,7 @@ const Header = ({ user, pageTitle, setMobileOpen, mobileOpen }) => {
   }
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-fin-border bg-fin-card/95 backdrop-blur-md px-6 shadow-fin-sm">
+    <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b border-fin-border bg-fin-card/95 backdrop-blur-md px-6 shadow-fin-sm">
       {/* Mobile Hamburguer Toggle */}
       <button
         type="button"

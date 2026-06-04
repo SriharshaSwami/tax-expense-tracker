@@ -19,7 +19,7 @@ import budgetRoutes from './routes/budget.routes.js'
 import goalRoutes from './routes/goal.routes.js'
 import notificationRoutes from './routes/notification.routes.js'
 import eliteAuditRoutes from './routes/elite_audit.routes.js'
-
+import aiRoutes from './routes/ai.routes.js'
 // Custom Middleware Imports
 import errorHandler from './middleware/error.middleware.js'
 import { apiLimiter, authLimiter, notificationLimiter } from './middleware/rateLimiter.js'
@@ -136,7 +136,7 @@ app.use('/api/budgets', budgetRoutes)
 app.use('/api/goals', goalRoutes)
 app.use('/api/notifications', notificationRoutes)
 app.use('/api/elite-audit', eliteAuditRoutes)
-
+app.use('/api/assistant', aiRoutes)
 // API Landing health check
 app.get('/', (req, res) => {
   res.json({

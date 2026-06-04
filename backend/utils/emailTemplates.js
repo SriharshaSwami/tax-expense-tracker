@@ -5,7 +5,7 @@ export const getPasswordResetEmailTemplate = (resetUrl, userName) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Reset Your Password - TaxExpense Planner</title>
+      <title>Reset Your Password - FinPulse</title>
       <style>
         /* Base Resets */
         body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
@@ -132,14 +132,14 @@ export const getPasswordResetEmailTemplate = (resetUrl, userName) => {
         <table class="main-table" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="header">
-              <h1>TaxExpense Planner</h1>
+              <h1>FinPulse</h1>
             </td>
           </tr>
           <tr>
             <td class="content">
               <h2>Password Reset Request</h2>
               <p>Hello ${userName},</p>
-              <p>We received a request to reset the password for your TaxExpense Planner account. To maintain the security of your financial data, this reset link will securely expire in <strong>10 minutes</strong>.</p>
+              <p>We received a request to reset the password for your FinPulse account. To maintain the security of your financial data, this reset link will securely expire in <strong>10 minutes</strong>.</p>
               
               <div class="button-wrapper">
                 <a href="${resetUrl}" class="btn">Reset Password</a>
@@ -158,7 +158,7 @@ export const getPasswordResetEmailTemplate = (resetUrl, userName) => {
           </tr>
           <tr>
             <td class="footer">
-              <p>&copy; ${new Date().getFullYear()} TaxExpense Planner. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} FinPulse. All rights reserved.</p>
               <p>This is an automated security notification. Please do not reply.</p>
             </td>
           </tr>

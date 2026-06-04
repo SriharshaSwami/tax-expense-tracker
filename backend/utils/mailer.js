@@ -10,7 +10,7 @@ export const sendMail = async ({ to, subject, text, html }) => {
     textContent: text,
     htmlContent: html,
     sender: { 
-      name: 'Taxsathi Support', 
+      name: 'FinPulse Support', 
       email: process.env.EMAIL_FROM || 'no-reply@example.com' 
     },
     to: [{ email: to }]

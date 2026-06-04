@@ -65,6 +65,7 @@ const Dashboard = () => {
           {/* SUMMARY CARDS METRICS */}
           <SummaryCards summary={summary} loading={loading} />
 
+
           {/* TRANSACTION WORKSPACE GRID */}
           <div className="grid gap-8 lg:grid-cols-3 items-start">
             {/* Form Column */}

@@ -378,3 +378,93 @@ export const getRecommendations = asyncHandler(async (req, res) => {
     recommendations,
   })
 })
+
+/**
+ * @desc    Get Unified Dashboard Insights
+ * @route   GET /api/insights/dashboard
+ * @access  Private
+ */
+export const getUnifiedDashboardInsights = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const transactions = await Transaction.find({ user: userId });
+
+  // 1. Calculate Financial Health Score (mocked core logic for speed, leveraging existing stats)
+  let totalIncome = 0;
+  let totalExpenses = 0;
+  let foodExpenses = 0;
+  let shoppingExpenses = 0;
+  let entertainmentExpenses = 0;
+  
+  transactions.forEach((t) => {
+    if (t.type === 'income') {
+      totalIncome += t.amount;
+    } else {
+      totalExpenses += t.amount;
+      if (t.category === 'Food') foodExpenses += t.amount;
+      if (t.category === 'Shopping') shoppingExpenses += t.amount;
+      if (t.category === 'Entertainment') entertainmentExpenses += t.amount;
+    }
+  });
+
+  const savings = totalIncome - totalExpenses;
+  const savingsRatio = totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
+  
+  let score = 60;
+  if (savingsRatio >= 40) score += 25;
+  else if (savingsRatio >= 20) score += 15;
+  else if (savingsRatio >= 10) score += 5;
+  else if (savingsRatio < 0) score -= 15;
+  score = Math.max(0, Math.min(100, Math.round(score)));
+  
+  let status = 'Need Attention';
+  if (score >= 85) status = 'Excellent';
+  else if (score >= 70) status = 'Good';
+  else if (score >= 50) status = 'Average';
+
+  // 2. Spending Trends
+  const spendingTrends = {
+    totalExpenses,
+    highestCategory: 'N/A',
+    weekendOverspending: false
+  };
+
+  // 3. Savings Trends
+  const savingsTrends = {
+    totalIncome,
+    savingsRatio,
+    netSurplus: savings
+  };
+
+  // 4. Recommendations
+  const recommendations = [];
+  if (savingsRatio < 20) {
+    recommendations.push({
+      id: 'rec_savings_booster',
+      title: 'Discretionary Budget Cut',
+      description: 'Your savings ratio is currently below the target 20% mark. Aim to reduce restaurant orders (Food) or clothing checkouts (Shopping) by 15% this month.',
+      category: 'Savings',
+      impact: 'High',
+      action: 'Set expense limit',
+    });
+  }
+  const userSalary = req.user.salary || 0;
+  if (userSalary > 700000) {
+    recommendations.push({
+      id: 'rec_tax_saving',
+      title: 'Maximize Indian Section 80C Deductions',
+      description: `With an annual salary of ₹${userSalary.toLocaleString('en-IN')}, you are in a tax bracket where leveraging 80C can dramatically reduce your tax liability.`,
+      category: 'Tax Optimizer',
+      impact: 'Critical',
+      action: 'Open Tax Calculator',
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    healthScore: score,
+    healthStatus: status,
+    spendingTrends,
+    savingsTrends,
+    recommendations
+  });
+});

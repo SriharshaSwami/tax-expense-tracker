@@ -10,6 +10,15 @@ export const fetchFinancialHealth = async () => {
 }
 
 /**
+ * Fetch Unified Dashboard Insights
+ * @returns {Promise<Object>}
+ */
+export const fetchUnifiedInsights = async () => {
+  const { data } = await api.get('/insights/dashboard')
+  return data
+}
+
+/**
  * Fetch AI Spending Pattern Detections
  * @returns {Promise<Object>}
  */
