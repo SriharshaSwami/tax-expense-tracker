@@ -9,10 +9,19 @@ import {
 
 const AuthContext = createContext(null)
 
+/**
+ * AuthProvider component that wraps the application to provide global authentication state.
+ * It manages the current user's session, loading state, and provides methods for login, registration, and logout.
+ */
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true) // True while checking initial session
 
+  /**
+   * Validates the current session on mount by hitting the /api/auth/me endpoint.
+   * If a valid HTTP-only cookie exists, it restores the user session.
+   */
   const checkAuth = async () => {
     try {
       const data = await getCurrentUser()
@@ -64,6 +73,10 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
+/**
+ * Custom hook to consume the AuthContext.
+ * Use this in components to access user data and authentication methods.
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {

@@ -30,7 +30,13 @@ import {
   fetchTaxHistory,
 } from '../services/taxService'
 
+/**
+ * TaxCalculator Page Component.
+ * Allows users to calculate and compare tax liabilities under Old vs New Indian tax regimes.
+ * Integrates Recharts for data visualization and framer-motion for smooth entrance animations.
+ */
 const TaxCalculator = () => {
+  // Use IIFE to safely extract auth user with a fallback for dev/testing
   const { user } = (() => {
     try {
       return useAuth()
@@ -98,7 +104,7 @@ const TaxCalculator = () => {
     }
   }
 
-  // Fetch History on Mount
+  // Fetch History on Mount to populate the "Tax Audit History" grid
   useEffect(() => {
     loadHistory()
   }, [])
@@ -146,6 +152,9 @@ const TaxCalculator = () => {
     toast.success('Form inputs cleared')
   }
 
+  /**
+   * Submits the form data to the backend API to calculate tax under both regimes.
+   */
   const handleCalculate = async (e) => {
     e.preventDefault()
     if (!inputs.annualSalary && !inputs.otherIncome) {
@@ -178,6 +187,9 @@ const TaxCalculator = () => {
     }
   }
 
+  /**
+   * Saves the current active calculation result and inputs into the database history.
+   */
   const handleSave = async () => {
     if (!results) return
     setLoading(true)
@@ -229,6 +241,7 @@ const TaxCalculator = () => {
 
   const PIE_COLORS = ['#EF4444', '#10B981'] // Tax = Red, Take-home = Green
 
+  // Helper logic to dynamically generate smart savings insights based on current inputs & result comparisons
   const generateSavingInsights = () => {
     if (!results) return []
     const list = []

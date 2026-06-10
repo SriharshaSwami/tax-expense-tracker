@@ -2,15 +2,19 @@ import Transaction from '../models/Transaction.js'
 import asyncHandler from '../utils/asyncHandler.js'
 import AppError from '../utils/AppError.js'
 
-// @desc    Get monthly income, expense and balance totals for the last 6 months
-// @route   GET /api/analytics/monthly
-// @access  Private
+/**
+ * @desc    Get monthly income, expense and balance totals for the last 6 months. Used to render the main bar/line charts on the dashboard.
+ * @route   GET /api/analytics/monthly
+ * @access  Private
+ * @returns {Array} Array of monthly data objects sorted chronologically.
+ */
 export const getMonthlyAnalytics = asyncHandler(async (req, res) => {
   const today = new Date()
   // Boundary starts 5 calendar months ago (total 6 months: current month + past 5 months)
   const startOfRange = new Date(today.getFullYear(), today.getMonth() - 5, 1)
   startOfRange.setHours(0, 0, 0, 0)
 
+  // Use MongoDB Aggregation Pipeline to sum income and expenses grouped by month and year.
   const results = await Transaction.aggregate([
     {
       $match: {
@@ -66,9 +70,12 @@ export const getMonthlyAnalytics = asyncHandler(async (req, res) => {
   })
 })
 
-// @desc    Get total spending per category and percentage distribution for expenses only
-// @route   GET /api/analytics/category-breakdown
-// @access  Private
+/**
+ * @desc    Get total spending per category and percentage distribution for expenses only. Used for the Donut/Pie chart.
+ * @route   GET /api/analytics/category-breakdown
+ * @access  Private
+ * @returns {Array} Array of categories with their total amount and percentage of total expenses.
+ */
 export const getCategoryBreakdown = asyncHandler(async (req, res) => {
   // Aggregate total expenses sum first
   const totalExpenseAggregate = await Transaction.aggregate([
@@ -107,6 +114,7 @@ export const getCategoryBreakdown = asyncHandler(async (req, res) => {
     },
   ])
 
+  // Map the aggregated data to include a calculated percentage for easier rendering on the frontend.
   const finalBreakdown = breakdown.map((item) => {
     const percentage = totalExpense > 0 
       ? parseFloat(((item.amount / totalExpense) * 100).toFixed(1))
@@ -124,9 +132,12 @@ export const getCategoryBreakdown = asyncHandler(async (req, res) => {
   })
 })
 
-// @desc    Generate smart insights and recent trends
-// @route   GET /api/analytics/recent-trends
-// @access  Private
+/**
+ * @desc    Generate smart insights and recent trends (e.g. savings rate, MoM spending change, financial health status).
+ * @route   GET /api/analytics/recent-trends
+ * @access  Private
+ * @returns {Object} JSON response containing various calculated insights for the AI Health Dashboard.
+ */
 export const getRecentTrends = asyncHandler(async (req, res) => {
   const today = new Date()
 

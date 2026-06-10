@@ -1,3 +1,9 @@
+/**
+ * Main application entry point for the Express backend.
+ * Initializes the server, configures middleware for security and parsing,
+ * and sets up API routes.
+ */
+
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -34,10 +40,13 @@ const app = express()
 app.set('trust proxy', 1) // Trust Render's reverse proxy for rate limiter
 const PORT = process.env.PORT || 5000
 
-// Initialize MongoDB Atlas connection
+// Initialize MongoDB Atlas connection (Connects to the cloud DB using MONGO_URI)
 connectDB()
 
+// --- Middleware Pipeline ---
+
 // 1. HTTP Request Logging using Morgan
+// Logs incoming requests for debugging and monitoring
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'))
 } else {
@@ -148,8 +157,10 @@ app.get('/', (req, res) => {
 })
 
 // Global Error Catching boundary
+// Catches unhandled errors and formats them into a standard JSON response
 app.use(errorHandler)
 
+// Start the server and listen for incoming connections
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`Production Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`)

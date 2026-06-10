@@ -1,5 +1,9 @@
 import mongoose from 'mongoose'
 
+/**
+ * Connects to the MongoDB database using Mongoose.
+ * Exits the process if the connection fails.
+ */
 const connectDB = async () => {
   try {
     const uri =

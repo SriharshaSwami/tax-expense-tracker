@@ -24,6 +24,13 @@ const formatUser = (user) => ({
   createdAt: user.createdAt,
 })
 
+/**
+ * @desc    Register a new local user
+ * @route   POST /api/auth/register
+ * @access  Public
+ * @param   {Object} req.body - contains name, email, password, etc.
+ * @returns {Object} User details and auth token via cookie
+ */
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, salary, taxRegime, avatar } = req.body
 
@@ -55,6 +62,13 @@ export const registerUser = asyncHandler(async (req, res) => {
   return ApiResponse.created(res, { user: formatUser(user) }, 'Registration successful')
 })
 
+/**
+ * @desc    Authenticate local user & get token
+ * @route   POST /api/auth/login
+ * @access  Public
+ * @param   {Object} req.body - contains email and password
+ * @returns {Object} User details and auth token via cookie
+ */
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
@@ -84,6 +98,13 @@ export const logoutUser = asyncHandler(async (req, res) => {
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
+/**
+ * @desc    Authenticate with Google OAuth
+ * @route   POST /api/auth/google
+ * @access  Public
+ * @param   {Object} req.body - contains google credential token
+ * @returns {Object} User details and auth token via cookie
+ */
 export const googleAuth = asyncHandler(async (req, res) => {
   const { credential } = req.body
 

@@ -10,7 +10,7 @@ import { AiChatProvider } from './context/AiChatContext'
 import { FullPageLoader } from './components/ui/Loader'
 import ChatWidget from './components/AiChat/ChatWidget'
 
-// Lazy Loaded Route Entry Pages
+// Lazy Loaded Route Entry Pages (Improves initial bundle load time)
 const Home = lazy(() => import('./pages/Home'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
@@ -23,11 +23,20 @@ const AIInsights = lazy(() => import('./pages/AIInsights'))
 const Budgets = lazy(() => import('./pages/Budgets'))
 const SavingsGoals = lazy(() => import('./pages/SavingsGoals'))
 
+/**
+ * Main Application Component.
+ * Wraps the entire application in necessary Context Providers (Theme, Auth, Transactions, AI).
+ * Handles global routing, including Protected and Public route boundaries.
+ */
 function App() {
   return (
+    // ThemeProvider manages Light/Dark mode state
     <ThemeProvider>
+      {/* AuthProvider manages user session and JWT state */}
       <AuthProvider>
+        {/* TransactionProvider handles global transaction data fetching & caching */}
         <TransactionProvider>
+          {/* BrowserRouter enables HTML5 History API based routing */}
           <BrowserRouter>
             <AiChatProvider>
               <Toaster

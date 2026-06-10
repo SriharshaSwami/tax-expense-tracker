@@ -8,11 +8,21 @@ import SummaryCards from '../components/dashboard/SummaryCards'
 import TransactionForm from '../components/dashboard/TransactionForm'
 import TransactionList from '../components/dashboard/TransactionList'
 
+/**
+ * Primary Dashboard layout component for authenticated users.
+ * Displays a summary of transactions (income/expense/balance), a form to add new transactions,
+ * and a list of recent transactions. Responsive layout handles mobile menu interactions.
+ */
 const Dashboard = () => {
+  // Fetch global user context
   const { user } = useAuth()
+  // Fetch global transaction summary state to render quick metrics cards
   const { summary, loading } = useTransactions()
+  
+  // Mobile responsive sidebar state toggle
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // Framer Motion animation variants for page entrance
   const pageVariants = {
     initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }

@@ -2,8 +2,11 @@ import TaxCalculation from '../models/TaxCalculation.js'
 import { compareTaxRegimes } from '../utils/taxEngine.js'
 
 /**
- * Perform on-the-fly Indian income tax calculations & regime comparison
- * POST /api/tax/calculate
+ * @desc    Perform on-the-fly Indian income tax calculations & regime comparison
+ * @route   POST /api/tax/calculate
+ * @access  Private (Requires Authentication)
+ * @param   {Object} req.body - Contains salary, exemptions, and deductions (e.g., 80C, 80D).
+ * @returns {Object} JSON response with tax comparison data (Old vs New Regime).
  */
 export const calculateTax = async (req, res) => {
   try {
@@ -33,6 +36,7 @@ export const calculateTax = async (req, res) => {
       })
     }
 
+    // Execute the core tax engine logic to compare both regimes based on validated inputs
     const comparison = compareTaxRegimes({
       annualSalary: sal,
       otherIncome: oth,
@@ -57,8 +61,11 @@ export const calculateTax = async (req, res) => {
 }
 
 /**
- * Save tax comparison record to database
- * POST /api/tax/save
+ * @desc    Save a tax comparison record to the database for historical tracking
+ * @route   POST /api/tax/save
+ * @access  Private
+ * @param   {Object} req.body - Contains tax inputs to generate the comparison.
+ * @returns {Object} JSON response confirming the saved record.
  */
 export const saveTaxCalculation = async (req, res) => {
   try {
@@ -124,8 +131,10 @@ export const saveTaxCalculation = async (req, res) => {
 }
 
 /**
- * Retrieve user's historical tax calculations
- * GET /api/tax/history
+ * @desc    Retrieve the user's historical tax calculations
+ * @route   GET /api/tax/history
+ * @access  Private
+ * @returns {Array} List of the last 10 tax calculation records, sorted by newest first.
  */
 export const getTaxHistory = async (req, res) => {
   try {
