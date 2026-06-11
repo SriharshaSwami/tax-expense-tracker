@@ -30,6 +30,4 @@ jobs:
         run: |
           node server.js &
           sleep 2
-          npm run smoke
-
-*** End Patch
+          npm run smoke
